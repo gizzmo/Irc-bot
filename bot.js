@@ -18,17 +18,17 @@ var confName = argv.config;
  * we should provide a way to "enable" environment specific configs (like
  * found on rails apps)
  */
- var options = {
-	schema: 'config/schema.json',
-	config: 'config/' + confName + '.json'
- };
+var options = {
+	schema: './config/schema.json',
+	config: './config/' + confName + '.json'
+};
 
 var config = pkgconfig(options);
 
 var logger = new (winston.Logger)({
 	transports: [
-	  new (winston.transports.Console)({ level: config.logLevel })
-//      new (winston.transports.File)({ level: config.logLevel, filename: 'ircbot.log' })
+		new (winston.transports.Console)({ level: config.logLevel })
+		// new (winston.transports.File)({ level: config.logLevel, filename: 'ircbot.log' })
 	]
 });
 
