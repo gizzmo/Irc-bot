@@ -30,10 +30,10 @@
 			"description": "The realname of the bot used on the IRC server.",
 			"type": "string",
 			"required": true,
-			"default": "Powered by Michael Owens"
+			"default": "Powered by NodeJS"
 		},
-		"zncIdent": {
-			"description": "The password of the ZNC Bouncer.",
+		"pass": {
+			"description": "The password of the server.",
 			"type": "string",
 			"required": false,
 			"default": ""
@@ -66,7 +66,7 @@
 			"description": "Plugin configurations, defined by the pluginname and the wanted property.",
 			"type": "object",
 			"required": false,
-			"default": "",
+			"default": {},
 			"properties": {
 				"properties": {
 					"type": "object"

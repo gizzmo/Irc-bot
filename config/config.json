@@ -1,13 +1,15 @@
 {
-	"host":		"irc.freenode.com",
-	"port":		6667,
-	"nick":		"NodeBot",
-	"username":	"NodeBot",
-	"realname":	"Powered by Michael Owens",
-	"channels":	["#nodejsNodeBot"],
-	"command":	".",
-	"logLevel":  "info",
-	"userCheck": false,
+	"host": "irc.quakenet.org",
+	"port": 6667,
+	"nick": "GizBot",
+	"username": "GizBot",
+	"realname": "Powered by NodeJS",
+	"channels": ["#gizzmo"],
+	"command": "!",
+	"logLevel": "info",
 
-	"plugins":	["global", "reload", "lastseen", "textfilter"]
+	"plugins": [
+		"global",
+		"reload"
+	]
 }
