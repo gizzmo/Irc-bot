@@ -5,12 +5,13 @@ var irc  = require('./irc-stub.js'),
 	_ = require('underscore');
 
 describe("Freenode", function(){
-	var config = { "pluginConfigs": {
-						"freenode": {
-							"nickPass": "defaultPassword"
-						}
-					}
-				};
+	var config = {
+		"pluginConfigs": {
+			"freenode": {
+				"nickPass": "defaultPassword"
+			}
+		}
+	};
 	config.logger = new (winston.Logger)({
 		transports: [
 		  new (winston.transports.Console)({ level: 'verbose' })
@@ -46,9 +47,6 @@ describe("Freenode", function(){
 	}),
 	it('should have a title', function() {
 		JSON.stringify(_freenode.title).should.not.equal(JSON.stringify('undefined'));
-	}),
-	it('should have an author', function() {
-		JSON.stringify(_freenode.author).should.not.equal(JSON.stringify('undefined'));
 	}),
 	it('should have a default password', function() {
 		JSON.stringify(_freenode.nickPass).should.not.equal(JSON.stringify('undefined'));

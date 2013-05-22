@@ -1,10 +1,6 @@
 /**
  * FreeNode Services Plugin
  *
- * @author		Karl Tiedt
- * @website		http://twitter.com/ktiedt
- * @copyright	Karl Tiedt 2011
- *
  * Identifies to nickserv on FreeNode onConnect
  *      update nickPass as needed
  */
@@ -14,9 +10,8 @@ var util = require('util'),
 Plugin = exports.Plugin = function(irc, name) {
 	Plugin.super_.call(this, irc, name);
 
-	this.title = 'FreeNode Services';
+	this.title = 'Freenode Services';
 	this.version = '0.1';
-	this.author = 'Karl Tiedt';
 
 	try {
 		this.nickPass = this.getPluginProperty('nickPass');
