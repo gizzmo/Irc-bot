@@ -1,9 +1,5 @@
 /**
 * Plugin Helper Class
-*
-* @author      Markus M. May
-* @website     http://www.javafreedom.org
-* @copyright   Markus M. May 2013
 */
 
 BasePlugin = exports.BasePlugin = function(irc, name) {

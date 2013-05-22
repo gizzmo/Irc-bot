@@ -27,9 +27,6 @@ describe("Lastseen", function(){
 	}),
 	it('should have a title', function() {
 		JSON.stringify(_lastseen.title).should.not.equal(JSON.stringify('undefined'));
-	}),
-	it('should have an author', function() {
-		JSON.stringify(_lastseen.author).should.not.equal(JSON.stringify('undefined'));
 	})
 
 });

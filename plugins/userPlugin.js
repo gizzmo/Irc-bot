@@ -1,10 +1,6 @@
 /**
  * User Plugin
  *
- * @author      Markus M. May
- * @website     http://www.javafreedom.org
- * @copyright   Markus M. May 2013
- *
  * Provides some basic functionalities for userhandling
  */
 var util = require('util'),
@@ -15,7 +11,6 @@ Plugin = exports.Plugin = function(irc, name) {
 
 	this.title = 'User Services';
 	this.version = '0.1';
-	this.author = 'Markus M. May';
 
 	this.irc.addTrigger(this, 'user', this.trigUser);
 };
@@ -90,7 +85,7 @@ Plugin.prototype.trigUser = function(msg) {
 				// everything went well, send message
 				var user = irc.users[userName];
 				user.group = userGroup;
-				irs.send(nick, 'added user ' + userName + ' to group ' + userGroup);
+				irc.send(nick, 'added user ' + userName + ' to group ' + userGroup);
 			}
 
 		}

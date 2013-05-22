@@ -15,17 +15,19 @@ Plugin = exports.Plugin = function(irc, name) {
 	this.version = '0.2';
 	this.author = 'Michael Owens, Markus M. May';
 
-	this.filters = ['swine', 'politician', 'girl'];
+	this.filters = [];
 
 	this.irc.addTrigger(this, 'textfilter', this.trigTextfilter);
 };
 util.inherits(Plugin, basePlugin.BasePlugin);
 
 Plugin.prototype.onMessage = function(msg) {
-	var irc = this.irc,
-		c = msg.arguments[0], // channel name
-		u = msg.nick, // nick
-		m = msg.arguments[1], // message text
+	var irc = this.irc,          // irc object
+		c = msg.arguments[0],    // channel
+		chan = irc.channels[c],  // channel object
+		u = msg.nick,            // user
+		m = msg.arguments[1],    // message
+		params = m.split(' '),
 		disallow = false;
 
 	for(var i = 0, z = this.filters.length; i < z; i++) {
@@ -42,7 +44,7 @@ Plugin.prototype.onMessage = function(msg) {
 	}
 
 	if (disallow) {
-		irc.channels[c].send('\002' + u + ':\002 Watch your language!');
+		chan.send('\002' + u + ':\002 Watch your language!');
 	}
 };
 
@@ -55,11 +57,13 @@ Plugin.prototype.trigTextfilter = function(msg) {
 
 	params.shift();
 	if (typeof params[0] === 'undefined') {
-		chan.send('\002Example:\002 ' + irc.config.command + 'textfilter <command> <word>');
-	} else if (params[0] === 'addword') {
+		chan.send('\002Example:\002 ' + irc.config.command + 'textfilter <addword|removeword> <word>');
+	}
+	else if (params[0] === 'addword') {
 		this.filters.push(params[1]);
 		chan.send('The word \002' + params[1] + '\002 is no longer allowed in here!');
-	} else if (params[0] === 'removeword') {
+	}
+	else if (params[0] === 'removeword') {
 		if (this.filters.indexOf(params[1]) > -1) {
 			this.filters.splice(this.filters.indexOf(params[1]));
 			chan.send('The word \002' + params[1] + '\002 is now allowed again!');

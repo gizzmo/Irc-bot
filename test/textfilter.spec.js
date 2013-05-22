@@ -6,11 +6,14 @@ var irc  = require('./irc-stub.js'),
 
 describe("Textfilter", function(){
 	var config = {};
-	var _irc, _textfilter;
+	var _irc, _textfilter, _filters;
 
 	beforeEach(function() {
 		_irc = new irc.Irc(config);
 		_textfilter = new textfilter.Plugin(_irc, 'textfilter');
+
+		// add default filters
+		_filters = _textfilter.filters = ['swine', 'politician', 'girl']
 	})
 
 	describe("#onMessage()", function() {
@@ -18,15 +21,13 @@ describe("Textfilter", function(){
 
 			var checks = {
 				':stubOtherUserNick stubBotNick #stubChannel :The message contains swine':
-				  'PRIVMSG #stubChannel :\u0002stubOtherUserNick:\u0002 Watch your language!\r\n\r\n',
+				'PRIVMSG #stubChannel :\u0002stubOtherUserNick:\u0002 Watch your language!\r\n\r\n',
+
 				':stubOtherUserNick stubBotNick #stubChannel :The message contains politician':
-				  'PRIVMSG #stubChannel :\u0002stubOtherUserNick:\u0002 Watch your language!\r\n\r\n',
+				'PRIVMSG #stubChannel :\u0002stubOtherUserNick:\u0002 Watch your language!\r\n\r\n',
+
 				':stubOtherUserNick stubBotNick #stubChannel :The message contains girl':
-				  'PRIVMSG #stubChannel :\u0002stubOtherUserNick:\u0002 Watch your language!\r\n\r\n',
-				':stubOtherUserNick stubBotNick #stubChannel :A really long message, which contains girl and swine and politician and probably more bad words, who knows':
-				  'PRIVMSG #stubChannel :\u0002stubOtherUserNick:\u0002 Watch your language!\r\n\r\n',
-				':stubOtherUserNick!~stubOtherUserNick@group/subgroup/stubOtherUserNick PRIVMSG #stubChannel :swine':
-				  'PRIVMSG #stubChannel :\u0002stubOtherUserNick:\u0002 Watch your language!\r\n\r\n'
+				'PRIVMSG #stubChannel :\u0002stubOtherUserNick:\u0002 Watch your language!\r\n\r\n'
 			};
 
 			_.each(checks, function(result, text) {
@@ -72,11 +73,10 @@ describe("Textfilter", function(){
 	describe("#addWord()", function() {
 		it('should answer with an Example, if no word is given', function() {
 			var test = new message.Message(':stubOtherUserNick stubBotNick #stubChannel :!textfilter');
-			var result = 'PRIVMSG #stubChannel :\002Example:\002 !textfilter <command> <word>\r\n\r\n';
+			var result = 'PRIVMSG #stubChannel :\002Example:\002 !textfilter <addword|removeword> <word>\r\n\r\n';
 			var call = _textfilter.trigTextfilter(test);
 			var resultMessage = _irc.resultMessage;
 			JSON.stringify(resultMessage).should.equal(JSON.stringify(result));
-
 		}),
 		it('should answer to the whole channel, that a word is added to the list of bad words', function() {
 			var test = new message.Message(':stubOtherUserNick stubBotNick #stubChannel :!textfilter addword testword');
@@ -87,9 +87,9 @@ describe("Textfilter", function(){
 		}),
 		it('should add the word to the list of bad words, if asked to', function() {
 			var test = new message.Message(':stubOtherUserNick stubBotNick #stubChannel :!textfilter addword testword');
+			var result = ['swine','politician','girl','testword'];
 			var call = _textfilter.trigTextfilter(test);
 			var listOfWords = _textfilter.filters;
-			var result = ['swine', 'politician', 'girl', 'testword'];
 			JSON.stringify(listOfWords).should.equal(JSON.stringify(result));
 		})
 
@@ -97,11 +97,10 @@ describe("Textfilter", function(){
 	describe("#removeWord()", function() {
 		it('should answer with an Example, if no word is given', function() {
 			var test = new message.Message(':stubOtherUserNick stubBotNick #stubChannel :!textfilter');
-			var result = 'PRIVMSG #stubChannel :\002Example:\002 !textfilter <command> <word>\r\n\r\n';
+			var result = 'PRIVMSG #stubChannel :\002Example:\002 !textfilter <addword|removeword> <word>\r\n\r\n';
 			var call = _textfilter.trigTextfilter(test);
 			var resultMessage = _irc.resultMessage;
 			JSON.stringify(resultMessage).should.equal(JSON.stringify(result));
-
 		}),
 		it('should report the removed word to the whole channel', function() {
 			var test = new message.Message(':stubOtherUserNick stubBotNick #stubChannel :!textfilter removeword girl');
@@ -112,9 +111,9 @@ describe("Textfilter", function(){
 		}),
 		it('should remove the word from the list of bad words, if asked to', function() {
 			var test = new message.Message(':stubOtherUserNick stubBotNick #stubChannel :!textfilter removeword girl');
+			var result = ['swine', 'politician'];
 			var call = _textfilter.trigTextfilter(test);
 			var listOfWords = _textfilter.filters;
-			var result = ['swine', 'politician'];
 			JSON.stringify(listOfWords).should.equal(JSON.stringify(result));
 		}),
 		it('should report, if a word not in list is removed', function() {
@@ -133,9 +132,6 @@ describe("Textfilter", function(){
 	}),
 	it('should have a title', function() {
 		JSON.stringify(_textfilter.title).should.not.equal(JSON.stringify('undefined'));
-	}),
-	it('should have an author', function() {
-		JSON.stringify(_textfilter.author).should.not.equal(JSON.stringify('undefined'));
 	}),
 	it('should have some default bad words', function() {
 		JSON.stringify(_textfilter.filters).should.not.equal(JSON.stringify('undefined'));
