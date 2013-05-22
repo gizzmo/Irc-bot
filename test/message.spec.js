@@ -1,20 +1,19 @@
-var message  = require('../lib/message.js');
-var should = require('should');
-var _ = require('underscore');
+var message  = require('../lib/message.js'),
+	should = require('should');
 
-describe("IRC", function() {
+describe("Message", function() {
 	describe("#parse()", function() {
 		it("Parsing IRC messages and split those into its details", function() {
-			var checks = {
-				':irc.dollyfish.net.nz 372 nodebot :The message of the day was last changed: 2012-6-16 23:57': {
+			var checks = [
+				[':irc.dollyfish.net.nz 372 nodebot :The message of the day was last changed: 2012-6-16 23:57', {
 					prefix: "irc.dollyfish.net.nz",
 					server: "irc.dollyfish.net.nz",
 					command: "rpl_motd",
 					rawCommand: "372",
 					commandType: "reply",
 					args: [ "nodebot", "The message of the day was last changed: 2012-6-16 23:57" ]
-				},
-				':Ned!~martyn@irc.dollyfish.net.nz PRIVMSG #test :Hello nodebot!': {
+				}],
+				[':Ned!~martyn@irc.dollyfish.net.nz PRIVMSG #test :Hello nodebot!', {
 					prefix: "Ned!~martyn@irc.dollyfish.net.nz",
 					nick: "Ned",
 					user: "~martyn",
@@ -23,8 +22,8 @@ describe("IRC", function() {
 					rawCommand: "PRIVMSG",
 					commandType: "normal",
 					args: [ "#test", "Hello nodebot!" ]
-				},
-				':Ned!~martyn@irc.dollyfish.net.nz PRIVMSG #test ::-)': {
+				}],
+				[':Ned!~martyn@irc.dollyfish.net.nz PRIVMSG #test ::-)', {
 					prefix: "Ned!~martyn@irc.dollyfish.net.nz",
 					nick: "Ned",
 					user: "~martyn",
@@ -33,8 +32,8 @@ describe("IRC", function() {
 					rawCommand: "PRIVMSG",
 					commandType: "normal",
 					args: [ "#test", ":-)" ]
-				},
-				':Ned!~martyn@irc.dollyfish.net.nz PRIVMSG #test ::': {
+				}],
+				[':Ned!~martyn@irc.dollyfish.net.nz PRIVMSG #test ::', {
 					prefix: "Ned!~martyn@irc.dollyfish.net.nz",
 					nick: "Ned",
 					user: "~martyn",
@@ -43,8 +42,8 @@ describe("IRC", function() {
 					rawCommand: "PRIVMSG",
 					commandType: "normal",
 					args: [ "#test", ":" ]
-				},
-				":Ned!~martyn@irc.dollyfish.net.nz PRIVMSG #test ::^:^:": {
+				}],
+				[":Ned!~martyn@irc.dollyfish.net.nz PRIVMSG #test ::^:^:", {
 					prefix: "Ned!~martyn@irc.dollyfish.net.nz",
 					nick: "Ned",
 					user: "~martyn",
@@ -53,16 +52,16 @@ describe("IRC", function() {
 					rawCommand: "PRIVMSG",
 					commandType: "normal",
 					args: [ "#test", ":^:^:" ]
-				},
-				":some.irc.net 324 webuser #channel +Cnj 5:10": {
+				}],
+				[":some.irc.net 324 webuser #channel +Cnj 5:10", {
 					prefix: "some.irc.net",
 					server: "some.irc.net",
 					command: "rpl_channelmodeis",
 					rawCommand: "324",
 					commandType: "reply",
 					args: [ "webuser", "#channel", "+Cnj", "5:10" ]
-				},
-				":nick!user@host QUIT :Ping timeout: 252 seconds": {
+				}],
+				[":nick!user@host QUIT :Ping timeout: 252 seconds", {
 					prefix: "nick!user@host",
 					nick: "nick",
 					user: "user",
@@ -71,8 +70,8 @@ describe("IRC", function() {
 					rawCommand: "QUIT",
 					commandType: "normal",
 					args: [ "Ping timeout: 252 seconds" ]
-				},
-				":nick!user@host PRIVMSG #channel :so : colons: :are :: not a problem ::::": {
+				}],
+				[":nick!user@host PRIVMSG #channel :so : colons: :are :: not a problem ::::", {
 					prefix: "nick!user@host",
 					nick: "nick",
 					user: "user",
@@ -81,18 +80,21 @@ describe("IRC", function() {
 					rawCommand: "PRIVMSG",
 					commandType: "normal",
 					args: [ "#channel", "so : colons: :are :: not a problem ::::" ]
-				},
-				":pratchett.freenode.net 324 nodebot #ubuntu +CLcntjf 5:10 #ubuntu-unregged": {
+				}],
+				[":pratchett.freenode.net 324 nodebot #ubuntu +CLcntjf 5:10 #ubuntu-unregged", {
 					prefix: 'pratchett.freenode.net',
 					server: 'pratchett.freenode.net',
 					command: 'rpl_channelmodeis',
 					rawCommand: '324',
 					commandType: 'reply',
 					args: [ 'nodebot', '#ubuntu', '+CLcntjf', '5:10', '#ubuntu-unregged' ]
-				}
-			};
+				}]
+			];
 
-			_.each(checks, function(result, line) {
+			checks.forEach(function(obj){
+				var line = obj[0];
+				var result = obj[1];
+
 				it('parse ' + line, function() {
 					JSON.stringify(new message.Message(line)).should.equal(JSON.stringify(result));
 				});
