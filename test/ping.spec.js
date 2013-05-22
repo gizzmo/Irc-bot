@@ -15,7 +15,7 @@ describe("Ping", function(){
 	describe('#trigPing', function() {
 		it('should respond with Pong', function() {
 			var test = new message.Message(':stubOtherUserNick stubBotNick #stubChannel :!ping');
-			var result = 'PRIVMSG #stubChannel :Pong!\r\n\r\n';
+			var result = 'PRIVMSG #stubChannel :Pong!';
 			var call = _ping.trigPing(test);
 			var resultMessage = _irc.resultMessage;
 			JSON.stringify(resultMessage).should.equal(JSON.stringify(result))

@@ -19,7 +19,7 @@ describe("UserPlugin", function(){
 	describe("#user()", function() {
 		it('should answer with an Example, if no command and options are given', function() {
 			var test = new message.Message(':stubOtherUserNick stubBotNick #stubChannel :!user');
-			var result = 'PRIVMSG stubOtherUserNick :\002Example:\002 !user <command> <options>\r\n\r\n';
+			var result = 'PRIVMSG stubOtherUserNick :\002Example:\002 !user <command> <options>';
 			var call = _userPlugin.trigUser(test);
 			var resultMessage = _irc.resultMessage;
 			JSON.stringify(resultMessage).should.equal(JSON.stringify(result));
@@ -27,14 +27,14 @@ describe("UserPlugin", function(){
 		}),
 		it('should answer to the sending user the group(s) of the given user', function() {
 			var test = new message.Message(':stubOtherUserNick stubBotNick #stubChannel :!user group testuserroot');
-			var result = 'PRIVMSG stubOtherUserNick :root\r\n\r\n';
+			var result = 'PRIVMSG stubOtherUserNick :root';
 			var compare = _userPlugin.trigUser(test);
 			var resultMessage = _irc.resultMessage;
 			JSON.stringify(resultMessage).should.equal(JSON.stringify(result));
 		}),
 		it('should answer to the sending user if there is no user with the given name', function() {
 			var test = new message.Message(':stubOtherUserNick stubBotNick #stubChannel :!user group testusernotinlist');
-			var result = 'PRIVMSG stubOtherUserNick :specified user testusernotinlist does not exist!\r\n\r\n';
+			var result = 'PRIVMSG stubOtherUserNick :specified user testusernotinlist does not exist!';
 			var compare = _userPlugin.trigUser(test);
 			var resultMessage = _irc.resultMessage;
 			JSON.stringify(resultMessage).should.equal(JSON.stringify(result));

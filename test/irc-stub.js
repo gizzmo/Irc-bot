@@ -59,14 +59,14 @@ Irc.prototype.raw = function(cmd) {
 //    if (this.connection.readyState !== "open") {
 //        return this.disconnect("cannot send with readyState " + this.connection.readyState);
 //    }
-	var msg = Array.prototype.slice.call(arguments, 1).join(' ') + "\r\n";
+	var msg = Array.prototype.slice.call(arguments, 1).join(' ') + "";
 	this.resultMessage = cmd + " " + msg, this.encoding;
 };
 
 // public method to send PRIVMSG cleanly
 Irc.prototype.send = function(target, msg) {
 
-	msg = Array.prototype.slice.call(arguments, 1).join(' ') + "\r\n";
+	msg = Array.prototype.slice.call(arguments, 1).join(' ') + "";
 
 	if (arguments.length > 1) {
 		this.raw('PRIVMSG', target, ':' + msg);

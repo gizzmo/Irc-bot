@@ -22,7 +22,7 @@ describe("Freenode", function(){
 		it('should send the password to the server', function() {
 			var call = _freenode.onConnect();
 			var resultMessage = _irc.resultMessage;
-			var result = "NS id defaultPassword \r\n";
+			var result = "NS id defaultPassword ";
 			JSON.stringify(resultMessage).should.equal(JSON.stringify(result));
 		})
 	}),

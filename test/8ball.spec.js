@@ -15,7 +15,7 @@ describe("8Ball", function(){
 	describe('#trig8Ball', function() {
 		it('should answer with an Example, if now question asked', function() {
 			var test = new message.Message(':stubOtherUserNick stubBotNick #stubChannel :!8ball');
-			var result = 'PRIVMSG #stubChannel :\002Example:\002 !8ball <question>\r\n\r\n';
+			var result = 'PRIVMSG #stubChannel :\002Example:\002 !8ball <question>';
 			var call = _8ball.trig8Ball(test);
 			var resultMessage = _irc.resultMessage;
 			JSON.stringify(resultMessage).should.equal(JSON.stringify(result))
@@ -23,7 +23,7 @@ describe("8Ball", function(){
 		// How do you test this?
 		// it('should answer back', function() {
 		// 	var test = new message.Message(':stubOtherUserNick stubBotNick #stubChannel :!8ball question');
-		// 	var result = 'PRIVMSG #stubChannel :<result goes here>\r\n\r\n';
+		// 	var result = 'PRIVMSG #stubChannel :<result goes here>';
 		// 	var call _8ball.trig8Ball(test);
 		// 	var resultMessage = _irc.resultMessage;
 		// 	JSON.stringify(resultMessage).should.equal(JSON.stringify(result))

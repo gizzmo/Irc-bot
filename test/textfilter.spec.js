@@ -20,11 +20,11 @@ describe("Textfilter", function(){
 
 			var checks = [
 				[':stubOtherUserNick stubBotNick #stubChannel :The message contains swine',
-				'PRIVMSG #stubChannel :\u0002stubOtherUserNick:\u0002 Watch your language!\r\n\r\n'],
+				'PRIVMSG #stubChannel :\u0002stubOtherUserNick:\u0002 Watch your language!'],
 				[':stubOtherUserNick stubBotNick #stubChannel :The message contains politician',
-				'PRIVMSG #stubChannel :\u0002stubOtherUserNick:\u0002 Watch your language!\r\n\r\n'],
+				'PRIVMSG #stubChannel :\u0002stubOtherUserNick:\u0002 Watch your language!'],
 				[':stubOtherUserNick stubBotNick #stubChannel :The message contains girl',
-				'PRIVMSG #stubChannel :\u0002stubOtherUserNick:\u0002 Watch your language!\r\n\r\n']
+				'PRIVMSG #stubChannel :\u0002stubOtherUserNick:\u0002 Watch your language!']
 			];
 
 			checks.forEach(function(obj) {
@@ -80,14 +80,14 @@ describe("Textfilter", function(){
 	describe("#addWord()", function() {
 		it('should answer with an Example, if no word is given', function() {
 			var test = new message.Message(':stubOtherUserNick stubBotNick #stubChannel :!textfilter');
-			var result = 'PRIVMSG #stubChannel :\002Example:\002 !textfilter <addword|removeword> <word>\r\n\r\n';
+			var result = 'PRIVMSG #stubChannel :\002Example:\002 !textfilter <addword|removeword> <word>';
 			var call = _textfilter.trigTextfilter(test);
 			var resultMessage = _irc.resultMessage;
 			JSON.stringify(resultMessage).should.equal(JSON.stringify(result));
 		}),
 		it('should answer to the whole channel, that a word is added to the list of bad words', function() {
 			var test = new message.Message(':stubOtherUserNick stubBotNick #stubChannel :!textfilter addword testword');
-			var result = 'PRIVMSG #stubChannel :The word \002testword\002 is no longer allowed in here!\r\n\r\n';
+			var result = 'PRIVMSG #stubChannel :The word \002testword\002 is no longer allowed in here!';
 			var compare = _textfilter.trigTextfilter(test);
 			var resultMessage = _irc.resultMessage;
 			JSON.stringify(resultMessage).should.equal(JSON.stringify(result));
@@ -104,14 +104,14 @@ describe("Textfilter", function(){
 	describe("#removeWord()", function() {
 		it('should answer with an Example, if no word is given', function() {
 			var test = new message.Message(':stubOtherUserNick stubBotNick #stubChannel :!textfilter');
-			var result = 'PRIVMSG #stubChannel :\002Example:\002 !textfilter <addword|removeword> <word>\r\n\r\n';
+			var result = 'PRIVMSG #stubChannel :\002Example:\002 !textfilter <addword|removeword> <word>';
 			var call = _textfilter.trigTextfilter(test);
 			var resultMessage = _irc.resultMessage;
 			JSON.stringify(resultMessage).should.equal(JSON.stringify(result));
 		}),
 		it('should report the removed word to the whole channel', function() {
 			var test = new message.Message(':stubOtherUserNick stubBotNick #stubChannel :!textfilter removeword girl');
-			var result = 'PRIVMSG #stubChannel :The word \002girl\002 is now allowed again!\r\n\r\n';
+			var result = 'PRIVMSG #stubChannel :The word \002girl\002 is now allowed again!';
 			var call = _textfilter.trigTextfilter(test);
 			var resultMessage = _irc.resultMessage;
 			JSON.stringify(resultMessage).should.equal(JSON.stringify(result));
@@ -125,7 +125,7 @@ describe("Textfilter", function(){
 		}),
 		it('should report, if a word not in list is removed', function() {
 			var test = new message.Message(':stubOtherUserNick stubBotNick #stubChannel :!textfilter removeword testword');
-			var result = 'PRIVMSG #stubChannel :The given word \002testword\002 is not a disallowed word!\r\n\r\n';
+			var result = 'PRIVMSG #stubChannel :The given word \002testword\002 is not a disallowed word!';
 			var call = _textfilter.trigTextfilter(test);
 			var resultMessage = _irc.resultMessage;
 			JSON.stringify(resultMessage).should.equal(JSON.stringify(result));
