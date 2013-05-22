@@ -14,20 +14,20 @@ describe("Insult", function(){
 	})
 
 	describe("#insult()", function() {
-		it('should answer with an Example, if no nick is given', function() {
+		it('should insult the user who sent the command', function() {
 			var test = new message.Message(':stubOtherUserNick stubBotNick #stubChannel :!insult');
-			var result = 'PRIVMSG #stubChannel :\002Example:\002 !insult <nick>\r\n\r\n';
+			var result = /PRIVMSG #stubChannel :stubOtherUserNick! You ([^\s]*), ([^\s]*) ([^\s]*)!/;
 			var call = _insult.trigInsult(test);
 			var resultMessage = _irc.resultMessage;
-			JSON.stringify(resultMessage).should.equal(JSON.stringify(result));
+			JSON.stringify(resultMessage).should.match(result);
 
 		}),
-		it('should answer to the whole channel, that a nick is insulted', function() {
-			var test = new message.Message(':stubOtherUserNick stubBotNick #stubChannel :!insult triplem');
-			var result = 'PRIVMSG #stubChannel :triplem is slapped with a trout\r\n\r\n';
+		it('should insult the intend target', function() {
+			var test = new message.Message(':stubOtherUserNick stubBotNick #stubChannel :!insult thirdUser');
+			var result = /PRIVMSG #stubChannel :thirdUser! You ([^\s]*), ([^\s]*) ([^\s]*)!/;
 			var compare = _insult.trigInsult(test);
 			var resultMessage = _irc.resultMessage;
-			JSON.stringify(resultMessage).should.equal(JSON.stringify(result));
+			JSON.stringify(resultMessage).should.match(result);
 		})
 	})
 	it('should have a name', function() {
