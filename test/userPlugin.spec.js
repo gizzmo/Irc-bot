@@ -1,8 +1,7 @@
 var irc  = require('./irc-stub'),
 	message = require('../lib/message'),
 	userPlugin = require('../plugins/userPlugin'),
-	should = require('should'),
-	_ = require('underscore');
+	should = require('should');
 
 describe("UserPlugin", function(){
 	var config = {

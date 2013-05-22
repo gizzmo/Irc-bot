@@ -1,17 +1,15 @@
 var irc  = require('./irc-stub.js'),
 	lastseen = require('../plugins/lastseen.js'),
 	winston = require('winston'),
-	should = require('should'),
-	_ = require('underscore');
+	should = require('should');
 
 describe("Lastseen", function(){
 	var config = {};
 	config.logger = new (winston.Logger)({
 		transports: [
-		  new (winston.transports.Console)({ level: 'verbose' })
+			new (winston.transport.Console)({ level: 'verbose' })
 		]
 	});
-
 	var _irc, _lastseen;
 
 	beforeEach(function() {

@@ -3,14 +3,13 @@ var irc  = require('../lib/irc'),
 	Message = require('../lib/message').Message,
 	ball = require('../plugins/global'),
 	winston = require('winston'),
-	should = require('should'),
-	_ = require('underscore');
+	should = require('should');
 
 describe("IRC", function(){
 	var config = {};
 	config.logger = new (winston.Logger)({
 		transports: [
-		  new (winston.transports.Console)({ level: 'warn' })
+			new (winston.transports.Console)({ level: 'warn' })
 		]
 	});
 	config.command = '!';

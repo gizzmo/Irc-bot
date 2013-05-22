@@ -1,8 +1,7 @@
 var irc  = require('./irc-stub.js'),
 	message = require('../lib/message'),
 	textfilter = require('../plugins/textfilter.js'),
-	should = require('should'),
-	_ = require('underscore');
+	should = require('should');
 
 describe("Textfilter", function(){
 	var config = {};
@@ -19,32 +18,37 @@ describe("Textfilter", function(){
 	describe("#onMessage()", function() {
 		it('should respond with a matching message send to the nick which used the bad word', function() {
 
-			var checks = {
-				':stubOtherUserNick stubBotNick #stubChannel :The message contains swine':
-				'PRIVMSG #stubChannel :\u0002stubOtherUserNick:\u0002 Watch your language!\r\n\r\n',
+			var checks = [
+				[':stubOtherUserNick stubBotNick #stubChannel :The message contains swine',
+				'PRIVMSG #stubChannel :\u0002stubOtherUserNick:\u0002 Watch your language!\r\n\r\n'],
+				[':stubOtherUserNick stubBotNick #stubChannel :The message contains politician',
+				'PRIVMSG #stubChannel :\u0002stubOtherUserNick:\u0002 Watch your language!\r\n\r\n'],
+				[':stubOtherUserNick stubBotNick #stubChannel :The message contains girl',
+				'PRIVMSG #stubChannel :\u0002stubOtherUserNick:\u0002 Watch your language!\r\n\r\n']
+			];
 
-				':stubOtherUserNick stubBotNick #stubChannel :The message contains politician':
-				'PRIVMSG #stubChannel :\u0002stubOtherUserNick:\u0002 Watch your language!\r\n\r\n',
+			checks.forEach(function(obj) {
+				var text = obj[0];
+				var result = obj[1];
 
-				':stubOtherUserNick stubBotNick #stubChannel :The message contains girl':
-				'PRIVMSG #stubChannel :\u0002stubOtherUserNick:\u0002 Watch your language!\r\n\r\n'
-			};
-
-			_.each(checks, function(result, text) {
 				var call = _textfilter.onMessage(new message.Message(text));
 				var resultMessage = _irc.resultMessage;
+
 				JSON.stringify(resultMessage).should.equal(JSON.stringify(result));
 			});
 
 		})
 		it('should do nothing if there is no stopword in the message', function() {
 
-			var checks = {
-				':stubOtherUserNick stubBotNick #stubChannel :The message is a nice guy':
-				  'NOTHING HAPPENED',
-			};
+			var checks = [
+				[':stubOtherUserNick stubBotNick #stubChannel :The message is a nice guy',
+				'NOTHING HAPPENED']
+			];
 
-			_.each(checks, function(result, text) {
+			checks.forEach(function(obj) {
+				var text = obj[0];
+				var result = obj[1];
+
 				var call = _textfilter.onMessage(new message.Message(text));
 				var resultMessage = _irc.resultMessage;
 
@@ -54,12 +58,15 @@ describe("Textfilter", function(){
 		})
 		it('should do nothing if the bot itself is using bad words', function() {
 
-			var checks = {
-				':stubBotNick stubBotNick #stubChannel :The message is a swine':
-				  'NOTHING HAPPENED'
-			};
+			var checks = [
+				[':stubBotNick stubBotNick #stubChannel :The message is a swine',
+				'NOTHING HAPPENED']
+			];
 
-			_.each(checks, function(result, text) {
+			checks.forEach(function(obj) {
+				var text = obj[0];
+				var result = obj[1];
+
 				var call = _textfilter.onMessage(new message.Message(text));
 				var resultMessage = _irc.resultMessage;
 

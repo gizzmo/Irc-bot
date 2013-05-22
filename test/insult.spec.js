@@ -1,8 +1,7 @@
 var irc  = require('./irc-stub.js'),
 	message = require('../lib/message.js'),
 	insult = require('../plugins/insult.js'),
-	should = require('should'),
-	_ = require('underscore');
+	should = require('should');
 
 describe("Insult", function(){
 	var config = {};

@@ -1,8 +1,7 @@
 var irc  = require('./irc-stub.js'),
 	message = require('../lib/message'),
 	EightBall = require('../plugins/8ball.js'),
-	should = require('should'),
-	_ = require('underscore');
+	should = require('should');
 
 describe("8Ball", function(){
 	var config = {};

@@ -1,8 +1,7 @@
 var irc  = require('./irc-stub.js'),
 	message = require('../lib/message'),
 	ping = require('../plugins/ping.js'),
-	should = require('should'),
-	_ = require('underscore');
+	should = require('should');
 
 describe("Ping", function(){
 	var config = {};
