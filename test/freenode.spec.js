@@ -1,6 +1,5 @@
 var irc  = require('./irc-stub.js'),
 	freenode = require('../plugins/freenode.js'),
-	winston = require('winston'),
 	should = require('should');
 
 describe("Freenode", function(){
@@ -11,12 +10,6 @@ describe("Freenode", function(){
 			}
 		}
 	};
-	config.logger = new (winston.Logger)({
-		transports: [
-			new (winston.transports.Console)({ level: 'verbose' })
-		]
-	});
-
 
 	var _irc, _freenode;
 
