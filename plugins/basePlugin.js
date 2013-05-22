@@ -19,8 +19,6 @@ BasePlugin.prototype.getPluginProperty = function(propertyName) {
 			}
 		}
 	}
-
-	return 'undefined';
 };
 
 BasePlugin.prototype.parseTriggerMessage = function(msg) {
@@ -32,7 +30,7 @@ BasePlugin.prototype.parseTriggerMessage = function(msg) {
 	params.shift();
 
 	if (typeof params[0] == 'undefined') {
-		throw new PluginException("No command given");
+		throw new Error("No command given");
 	} else {
 		var command = params[0].toLowerCase();
 		var options = params.slice(1);
