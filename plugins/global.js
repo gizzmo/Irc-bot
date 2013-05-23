@@ -38,5 +38,55 @@ Plugin.prototype.onNumeric = function(msg) {
 		}
 	}
 	// can register other numeric events here
-
 };
+
+// Users
+Plugin.prototype.onData = function(msg){
+
+	var irc = this.irc,
+		target = msg.arguments[0],
+		nick = (msg.user || '').toLowerCase(),
+		users = irc.users,
+		user = users[nick];
+
+	// if nick exists and a user object doesnt...
+	if ( nick && !user) {
+		user = users[nick] = new irc.userObj(irc, msg.prefix);
+	}
+
+	switch(msg.rawCommand) {
+		case 'PRIVMSG':
+			if (user) {
+				user.update(msg.prefix);
+				user.join(target);
+			}
+			break;
+
+		case 'JOIN':
+			if (user) {
+				user.update(msg.prefix);
+				user.join(target);
+			}
+			break;
+
+		case 'PART':
+			if (user) {
+				user.update(msg.prefix);
+				user.part(target);
+			}
+			break;
+
+		case 'QUIT':
+			if (user) {
+				user.update(msg.prefix);
+				user.quit(msg)
+			}
+			break;
+
+		case 'NICK':
+			if (user) {
+				user.update(msg.prefix);
+			}
+			break;
+	}
+}
