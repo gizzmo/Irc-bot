@@ -19,22 +19,24 @@ Plugin.prototype.onNumeric = function(msg) {
 		userchans = irc.userchannels;
 
 	// 376 is end of MOTD/modes
-	if (command !== '376') {
-		return;
-	}
+	if (command === '376') {
+		this.irc.logger.info('Joining channels: ' + JSON.stringify(userchans));
 
-	this.irc.logger.info('Joining channels: ', userchans);
+		for (var i = 0; i < userchans.length; i++) {
+			var channelName = userchans[i],
+				password;
 
-	for (var i = 0; i < userchans.length; i++) {
-		var channelName = userchans[i],
-			password;
+			if (typeof(channelName) == "object") {
+				channelName = channelName.name;
+				password = channelName.password;
+			}
 
-		if (typeof(channelName) == "object") {
-			channelName = channelName.name;
-			password = channelName.password;
+			var chan = new irc.channelObj(irc, channelName, true, password);
+			irc.channels[chan.name] = chan;
+
+			// send who request
 		}
-
-		var chan = new irc.channelObj(irc, channelName, true, password);
-		irc.channels[chan.name] = chan;
 	}
+	// can register other numeric events here
+
 };
