@@ -1,9 +1,5 @@
 /**
  * Dummy Plugin to test IRC functionalities
- *
- * @author       Markus M. May
- * @website      http://www.javafreedom.org
- * @copyright    Markus M. May 2013
  */
 var util = require('util'),
 	basePlugin = require('./basePlugin');

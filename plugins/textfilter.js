@@ -1,9 +1,5 @@
 /**
  * Text Filter Plugin
- *
- * @author		Michael Owens
- * @website		http://www.michaelowens.nl
- * @copyright	Michael Owens 2011
  */
 var util = require('util'),
 	basePlugin = require('./basePlugin');

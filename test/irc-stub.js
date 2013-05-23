@@ -1,9 +1,5 @@
 /**
  * IRC Class Stub - provide only functions used by plugins
- *
- * @author      Markus M. May
- * @website     http://www.javafreedom.org
- * @copyright   Markus M. May 2013
  */
 var util = require('util'),
 	channel = require('../lib/channel.js'),
