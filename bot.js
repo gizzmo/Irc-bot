@@ -27,7 +27,7 @@ var config = pkgconfig(options);
 
 var logger = new (winston.Logger)({
 	transports: [
-		new (winston.transports.Console)({ level: config.logLevel })
+		new (winston.transports.Console)({ level: config.logLevel, colorize: true, timestamp: true })
 		// new (winston.transports.File)({ level: config.logLevel, filename: 'ircbot.log' })
 	]
 });
