@@ -23,7 +23,7 @@ Plugin.prototype.onNumeric = function(msg) {
 		return;
 	}
 
-	this.irc.logger.info('connecting to userchans: ', userchans);
+	this.irc.logger.info('Joining channels: ', userchans);
 
 	for (var i = 0; i < userchans.length; i++) {
 		var channelName = userchans[i],

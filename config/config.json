@@ -4,13 +4,11 @@
 	"nick": "GizBot",
 	"username": "GizBot",
 	"realname": "Powered by NodeJS",
-	"channels": ["#gizzmo"],
+	"channels": ["#TestChannel"],
 	"command": "!",
-	"logLevel": "info",
+	"logLevel": "verbose",
 
 	"plugins": [
-		"global",
-		"reload",
-		"8ball"
+		"global"
 	]
 }

@@ -21,6 +21,7 @@
 		"url": "http://unlicense.org/"
 	},
 	"scripts": {
-		"test": "mocha --reporter spec --slow 0 test/*.spec.js"
+		"test": "mocha --reporter spec --slow 0 test/*.spec.js",
+		"start": "node bot.js"
 	}
 }
