@@ -33,24 +33,6 @@ describe("basePlugin", function(){
 		})
 	}),
 
-	describe("#parseTriggerMessage", function() {
-		it('should throw error if no command given', function() {
-			(function() {
-				var msg = new message.Message(':stubOtherUserNick stubBotNick #stubChannel :!trigger');
-				var test = _basePlugin.parseTriggerMessage(msg);
-			}).should.throw('No command given');
-		}),
-		it('should return object containing two properties', function() {
-			var msg = new message.Message(':stubOtherUserNick stubBotNick #stubChannel :!trigger command options second')
-			var test = _basePlugin.parseTriggerMessage(msg);
-			var result = {
-				'command': 'command',
-				'options': ['options', 'second']
-			}
-			JSON.stringify(test).should.equal(JSON.stringify(result));
-		})
-	}),
-
 	describe("#checkUser", function() {
 		it('should return true, if the config.userCheck option is set to anything else then true', function() {
 			_irc.config.userCheck = false;

@@ -15,19 +15,20 @@ Plugin = exports.Plugin = function(irc, name) {
 util.inherits(Plugin, basePlugin.BasePlugin);
 
 Plugin.prototype.trigAdmin = function(msg) {
-	var irc = this.irc,          // irc object
-		c = msg.arguments[0],    // channel
-		chan = irc.channels[c],  // channel object
-		u = msg.nick;            // user;
+	var irc = this.irc,
+		chan = irc.channels[msg.arguments[0]];
 
-	try {
-		var commandObj = this.parseTriggerMessage(msg);
-	} catch (e) {
+	var m = msg.arguments[1],
+		params = m.splits(' ');
+
+	//
+	if (typeof params[1] == 'undefined') {
 		return chan.send('\002Example:\002 ' + irc.config.command + 'admin <command> <options>');
 	}
 
-	var command = commandObj.command;
-	var options = commandObj.options;
+	//
+	var command = params[1].toLowerCase(),
+		options = params.splice(2);
 
 	if (command === 'nick') {
 		irc.raw('NICK', options[0]);
@@ -47,8 +48,5 @@ Plugin.prototype.trigAdmin = function(msg) {
 				delete irc.channels[options[0]];
 			}
 		}
-	}
-	else if (seek === 'readnewmemo') {
-		irc.send('MemoServ', 'READ NEW');
 	}
 }

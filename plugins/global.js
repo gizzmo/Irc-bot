@@ -16,7 +16,7 @@ util.inherits(Plugin, basePlugin.BasePlugin)
 Plugin.prototype.onNumeric = function(msg) {
 	var irc = this.irc,
 		command = msg.rawCommand,
-		userchans = irc.userchannels;
+		userchans = irc.config.channels;
 
 	// 376 is end of MOTD/modes
 	if (command === '376') {

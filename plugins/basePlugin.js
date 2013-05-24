@@ -21,28 +21,6 @@ BasePlugin.prototype.getPluginProperty = function(propertyName) {
 	}
 };
 
-BasePlugin.prototype.parseTriggerMessage = function(msg) {
-	var m = msg.arguments[1], // message
-		params = m.split(' '),
-		result = {};
-
-	// first parameter is always the trigger (e.g. !admin)
-	params.shift();
-
-	if (typeof params[0] == 'undefined') {
-		throw new Error("No command given");
-	} else {
-		var command = params[0].toLowerCase();
-		var options = params.slice(1);
-
-		result = {
-			'command': command,
-			'options': options
-		}
-	}
-
-	return result;
-};
 
 /**
  * This method checks, if a user is member of the given group, or the group of the

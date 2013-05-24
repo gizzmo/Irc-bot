@@ -12,12 +12,6 @@ var irc = require('./lib/irc'),
 
 var confName = argv.config;
 
-/**
- * More advanced config
- *
- * we should provide a way to "enable" environment specific configs (like
- * found on rails apps)
- */
 var options = {
 	schema: './config/schema.json',
 	config: './config/' + confName + '.json'

@@ -17,23 +17,22 @@ Plugin = exports.Plugin = function(irc, name) {
 util.inherits(Plugin, basePlugin.BasePlugin);
 
 Plugin.prototype.trigUser = function(msg) {
-	var m = msg.arguments[1], // message
+	var irc = this.irc,
+		chan = irc.channels[msg.arguments[0]],
+		m = msg.arguments[1], // message
 		params = m.split(' '),
-		c = msg.arguments[0], // channel
-		irc = this.irc;
 
-	var nick = msg.nick;
-	var existingGroups = irc.config.userGroups || {};
+		nick = msg.nick,
+		existingGroups = irc.config.userGroups || {};
 
-	try {
-		var commandObj = this.parseTriggerMessage(msg);
-	} catch (e) {
-		irc.send(nick, '\002Example:\002 ' + this.irc.config.command + 'user <command> <options>');
-		return;
+	//
+	if (typeof params[1] == 'undefined') {
+		return irc.send(nick, '\002Example:\002 ' + irc.config.command + 'user <command> <options>');
 	}
 
-	var command = commandObj.command;
-	var options = commandObj.options;
+	//
+	var command = params[1].toLowerCase(),
+		options = params.splice(2);
 
 	// show the group, a user is assigned to
 	if (command === 'group') {

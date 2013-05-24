@@ -9,6 +9,7 @@
 	"logLevel": "verbose",
 
 	"plugins": [
-		"global"
+		"global",
+		"reload"
 	]
 }
