@@ -30,8 +30,8 @@ Irc.prototype.initialize = function(config) {
 	this.command = '!';
 
 	// Initialize channels
-	this.channels = {};
-	this.channels['#stubChannel'] = new channel.Channel(this, '#stubChannel', false);
+	this.channels = new channel.Channels(this);
+	this.channels.new('#stubChannel', false);
 
 	this.triggers = {};
 

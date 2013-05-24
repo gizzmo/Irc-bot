@@ -19,8 +19,7 @@ util.inherits(Plugin, basePlugin.BasePlugin);
 
 Plugin.prototype.onMessage = function(msg) {
 	var irc = this.irc,          // irc object
-		c = msg.arguments[0],    // channel
-		chan = irc.channels[c],  // channel object
+		chan = irc.channels.find(msg.arguments[0]),  // channel object
 		u = msg.nick,            // user
 		m = msg.arguments[1],    // message
 		params = m.split(' '),
@@ -46,8 +45,7 @@ Plugin.prototype.onMessage = function(msg) {
 
 Plugin.prototype.trigTextfilter = function(msg) {
 	var irc = this.irc,
-		c = msg.arguments[0],
-		chan = irc.channels[c],
+		chan = irc.channels.find(msg.arguments[0]),
 		m = msg.arguments[1],
 		params = m.split(' ');
 

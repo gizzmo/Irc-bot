@@ -24,10 +24,10 @@ describe("IRC", function(){
 	})
 
 	it('should add the given plugins to the plugins array', function() {
-		JSON.stringify(_irc.plugins['dummy']).should.not.equal(JSON.stringify('undefined'));
+		should.exist(_irc.plugins['dummy']);
 	}),
 	it('should add the given plugins with their associated events and their callbacks to the hooks array', function() {
-		JSON.stringify(_irc.plugins['dummy']).should.not.equal(JSON.stringify('undefined'));
+		should.exist(_irc.plugins['dummy']);
 	}),
 	it('should emit the onNumeric event, if a numeric command is given', function() {
 		var inMessage = ':wright.freenode.net 376 LordTacoNew :End of /MOTD command.';

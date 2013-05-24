@@ -17,8 +17,7 @@ util.inherits(Plugin, basePlugin.BasePlugin);
 
 Plugin.prototype.loadPlugin = function(msg) {
 	var irc = this.irc,          // irc object
-		c = msg.arguments[0],    // channel
-		chan = irc.channels[c],  // channel object
+		chan = irc.channels.find(msg.arguments[0]),  // channel object
 		u = msg.nick,            // user
 		m = msg.arguments[1],    // message
 		params = m.split(' ');
@@ -37,8 +36,7 @@ Plugin.prototype.loadPlugin = function(msg) {
 
 Plugin.prototype.unloadPlugin = function(msg) {
 	var irc = this.irc,          // irc object
-		c = msg.arguments[0],    // channel
-		chan = irc.channels[c],  // channel object
+		chan = irc.channels.find(msg.arguments[0]),  // channel object
 		u = msg.nick,            // user
 		m = msg.arguments[1],    // message
 		params = m.split(' ');
