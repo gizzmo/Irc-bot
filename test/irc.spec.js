@@ -43,6 +43,9 @@ describe("IRC", function(){
 
 		returnValue.should.equal(true);
 	}),
+	it('should emit privateMessage event if a PRIVMSG ...', function() {
+
+	}),
 	it('should send pong if ping is received', function() {
 		var inMessage = 'PING :cameron.freenode.net';
 		var message = new Message(inMessage);

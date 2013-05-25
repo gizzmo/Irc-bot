@@ -15,6 +15,7 @@ describe('Channels', function() {
 
 	it('channels object should exsist', function() {
 		(typeof _irc.channels).should.equal('object');
+		_irc.channels.should.be.an.instanceof(channel.Channels)
 	})
 
 	describe('#new', function() {
@@ -37,9 +38,7 @@ describe('Channels', function() {
 			(newChannel).should.equal(oldChannel);
 
 		})
-
 	})
-
 	describe('#find', function() {
 
 		// setup a few channels

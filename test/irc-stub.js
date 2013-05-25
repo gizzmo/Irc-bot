@@ -2,9 +2,9 @@
  * IRC Class Stub - provide only functions used by plugins
  */
 var util = require('util'),
-	channel = require('../lib/channel.js'),
 	winston = require('winston'),
-	origIRC = require('../lib/irc.js');
+	channel = require('../lib/channel'),
+	user = require('../lib/user');
 
 
 Irc = exports.Irc = function(config) {
@@ -32,6 +32,10 @@ Irc.prototype.initialize = function(config) {
 	// Initialize channels
 	this.channels = new channel.Channels(this);
 	this.channels.new('#stubChannel', false);
+
+	// initialize users
+	this.users = new user.Users(this);
+	this.users.new('stubUser');
 
 	this.triggers = {};
 
