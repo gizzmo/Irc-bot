@@ -1,8 +1,6 @@
 NodeJS IRC Bot
 ==============
-This is a plugin-based IRC Bot written in NodeJS and maintained by [Karl Tiedt](http://twitter.com/ktiedt).
-
-[![Build Status](https://travis-ci.org/triplem/NodeJS-IRC-Bot.png)](https://travis-ci.org/triplem/NodeJS-IRC-Bot)
+This is a plugin-based IRC Bot written in NodeJS and is based on https://github.com/triplem/NodeJS-IRC-Bot/
 
 Prerequisites
 =============
@@ -46,10 +44,8 @@ ToDos
 In the following are some Todos still open, they are unsorted and not prioritized.
 
 * Implement user checks for plugins, so that the irc bot recognizes at least some basic "authorization"
-* Remove coupling between Irc, Users and Channels
 * Add documentation to base methods
 * Allow configuration changes during runtime
 * Add admin interface (web gui?)
 * Cleanup Hooks, Plugins and Triggers in Irc (are these really needed)?
 
-*** Originally written by [Michael Owens](http://www.michaelowens.nl).
