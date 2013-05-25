@@ -8,7 +8,7 @@ BasePlugin = exports.BasePlugin = function(irc, name) {
 };
 
 BasePlugin.prototype.getPluginProperty = function(propertyName) {
-	this.irc.logger.verbose("fetching propertyName: " + propertyName + " for plugin: " + this.name);
+	this.irc.logger.verbose('Fetching propertyName: %s for plugin %s', propertyName, this.name);
 
 	if (this.irc.config.pluginConfigs !== 'undefined') {
 		var pluginConfigs = this.irc.config.pluginConfigs;
