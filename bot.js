@@ -1,9 +1,5 @@
 /**
  * IRC Bot
- *
- * @author		Michael Owens
- * @website		http://www.michaelowens.nl
- * @copyright	Michael Owens 2011
  */
 var irc = require('./lib/irc'),
 	pkgconfig = require('pkgconfig'),
