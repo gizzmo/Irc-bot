@@ -16,10 +16,9 @@ util.inherits(Plugin, basePlugin.BasePlugin);
 
 Plugin.prototype.trigAdmin = function(msg) {
 	var irc = this.irc,
-		chan = irc.channels[msg.arguments[0]];
-
-	var m = msg.arguments[1],
-		params = m.splits(' ');
+		chan = irc.channels.find(msg.arguments[0]),
+		m = msg.arguments[1],
+		params = m.split(' ');
 
 	//
 	if (typeof params[1] == 'undefined') {
