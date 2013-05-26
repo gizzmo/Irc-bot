@@ -33,16 +33,54 @@ describe("basePlugin", function(){
 		})
 	}),
 
-	describe("#checkUser", function() {
-		it('should return true, if the config.userCheck option is set to anything else then true', function() {
+	describe("#checkUser", function() {		var user;
+		beforeEach(function() {
+			_irc.config.userCheck = true;
+			_irc.config.userGroups = [
+				'admin',
+				'moderator',
+				'superuser',
+				'user',
+			];
+
+			user = _irc.users.new('aNick');
+		})
+		it('should return true, if the config.userCheck option doesn\'t exist, or is set to anything else then true', function() {
+			_irc.config.userCheck = undefined;
+			_basePlugin.checkUser("aNick", "aGroup").should.true;
+
 			_irc.config.userCheck = false;
-			_basePlugin.checkUser("aNick", "aGroup").should.equal(true);
-		}),
-		it('should return true if user is a memeber of the given group, or higher group', function() {
+			_basePlugin.checkUser("aNick", "aGroup").should.true;
 
-		}),
-		it('should return false if the config.UserGroups option doesn\'t exist, or array is empty', function() {
+			_irc.config.userCheck = 'string';
+			_basePlugin.checkUser("aNick", "aGroup").should.true;
+		})
+		// it('should return true if the config.userGroups option doesn\'t exist, or is empty', function() {
+		// 	_irc.config.userCheck = true;
 
+		// 	// test "doesnt exist"
+		// 	_basePlugin.checkUser("aNick", "aGroup").should.equal(true);
+
+		// 	// test empty array
+		// 	_irc.config.userGroups = [];
+		// 	_basePlugin.checkUser("aNick", "aGroup").should.equal(true);
+		// })
+
+		it('should return false if the user is not part of a group', function() {
+			_basePlugin.checkUser(user, 'user').should.be.equal(false);
+		})
+
+		it('should return true if user is a memeber of the given group, or in a higher group', function() {
+			user.group = 'superuser';
+
+			(_basePlugin.checkUser(user, 'admin')).should.be.false;
+			(_basePlugin.checkUser(user, 'moderator')).should.be.false;
+			(_basePlugin.checkUser(user, 'superuser')).should.be.true;
+			(_basePlugin.checkUser(user, 'user')).should.be.true;
+		})
+
+		it('should return false if no user found', function() {
+			_basePlugin.checkUser('nonUser', 'admin').should.be.false;
 		})
 	}),
 

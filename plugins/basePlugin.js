@@ -33,26 +33,26 @@ BasePlugin.prototype.getPluginProperty = function(propertyName) {
  * @param nick - the nick of the user
  * @param allowedGroup - the group the user is checked against
  */
-BasePlugin.prototype.checkUser = function(nick, allowedGroup) {
+BasePlugin.prototype.checkUser = function(user, allowedGroup) {
 	var userCheck = this.irc.config.userCheck;
 
-	if (userCheck !== 'undefined' || userCheck !== 'true') {
+	if (userCheck === 'undefined' || userCheck !== true) {
 		return true;
 	}
 
-	var user = this.irc.users[nick];
+
+	if (typeof user !== "object") {
+		user = this.irc.users.find(user);
+	}
+
 	var userGroups = this.irc.config.userGroups;
 
-	if (user !== 'undefined') {
+	if (user !== undefined) {
 		var userGroup = user.group;
 		if (userGroup === 'undefined' || userGroups.indexOf(userGroup) < 0) {
 			return false;
 		}
 		if (userGroups.indexOf(userGroup) <= userGroups.indexOf(allowedGroup)) {
-			return true;
-		}
-	} else {
-		if (allowedGroup === 'undefined' || allowedGroup === 'all') {
 			return true;
 		}
 	}
