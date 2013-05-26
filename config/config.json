@@ -9,5 +9,7 @@
 	"logLevel": "verbose",
 
 	"plugins": [
+		"reload",
+		"8ball"
 	]
 }

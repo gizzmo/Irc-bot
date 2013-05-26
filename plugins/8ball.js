@@ -47,7 +47,11 @@ Plugin.prototype.trig8Ball = function(msg) {
 	];
 
 	var item = lines[Math.floor(Math.random()*lines.length)];
-	chan.send(item);
+
+	// Shake the ball first then send the result
+	chan.emote('shakes the magic 8-ball...')
+
+	setTimeout(function() { chan.send(item); }, '1000');
 
 
 };
