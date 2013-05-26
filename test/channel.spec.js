@@ -35,8 +35,15 @@ describe('Channels', function() {
 			var oldChannel = _irc.channels.new('#stubChannel');
 			var newChannel = _irc.channels.new('#stubChannel');
 
-			(newChannel).should.equal(oldChannel);
+			(newChannel).should.equal(oldChannel)
+		})
 
+		it('should return nothing (undefined) no name passed, or name is an empty string', function() {
+			var test1 = _irc.channels.new();
+			should.not.exist(test2);
+
+			var test2 = _irc.channels.new('');
+			should.not.exist(test2);
 		})
 	})
 	describe('#find', function() {
@@ -55,14 +62,22 @@ describe('Channels', function() {
 			var result = _irc.channels.find('#stubChannel2');
 			(result).should.equal(chan2);
 		})
+
 		it('should return nothing (undefined) if channel doesnt exist', function() {
 			var result = _irc.channels.find('#channelDoesntExist');
 			should.not.exist(result);
 		})
+
+		it('should return nothing (undefined) no name passed, or name is an empty string', function() {
+			var test1 = _irc.channels.find();
+			should.not.exist(test2);
+
+			var test2 = _irc.channels.find('');
+			should.not.exist(test2);
+		})
 	})
 
 })
-
 
 describe("Channel", function() {
 	var config = {};
@@ -107,7 +122,14 @@ describe("Channel", function() {
 		})
 	})
 
-	// describe('', function() {
-		// it('', function() {})
-	// })
+	describe('#emote', function() {
+		it('should send PRIVMSG with action special characters', function() {
+			var chan = _irc.channels.find('#stubChannel1').emote('is stupid');
+
+			var message = 'PRIVMSG #stubChannel1 :ACTION is stupid ';
+			var result = _irc.resultMessage;
+
+			JSON.stringify(result).should.equal(JSON.stringify(message));
+		})
+	})
 })

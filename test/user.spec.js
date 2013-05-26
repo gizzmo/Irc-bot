@@ -35,20 +35,19 @@ describe('Users', function() {
 			(newUser).should.equal(oldUser);
 		})
 
-		it('should return nothing \'undefined\' no name passed, or name is an empty string', function() {
+		it('should return nothing (undefined) no name passed, or name is an empty string', function() {
 			var test1 = _irc.users.new();
 			should.not.exist(test2);
 
 			var test2 = _irc.users.new('');
 			should.not.exist(test2);
-
 		})
 	})
 
 
 	describe('#find', function() {
 
-		// setup a few channels
+		// setup a few users
 		var user1, user2;
 		beforeEach(function() {
 			user1 = _irc.users.new('stubUser');
@@ -62,9 +61,18 @@ describe('Users', function() {
 			var result = _irc.users.find('stubUser2');
 			(result).should.equal(user2);
 		})
+
 		it('should return nothing (undefined) if user doesnt exist', function() {
 			var result = _irc.users.find('userDoesntExist');
 			should.not.exist(result);
+		})
+
+		it('should return nothing (undefined) no name passed, or name is an empty string', function() {
+			var test1 = _irc.users.find();
+			should.not.exist(test2);
+
+			var test2 = _irc.users.find('');
+			should.not.exist(test2);
 		})
 	})
 })
