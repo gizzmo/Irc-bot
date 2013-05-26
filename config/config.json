@@ -4,7 +4,7 @@
 	"nick": "GizBot",
 	"username": "GizBot",
 	"realname": "Powered by NodeJS",
-	"channels": ["#TestChannel"],
+	"channels": ["#testchannel"],
 	"command": "!",
 	"logLevel": "debug",
 
