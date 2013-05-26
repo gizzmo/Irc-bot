@@ -28,22 +28,22 @@ Plugin.prototype.trig8Ball = function(msg) {
 	}
 
 	var lines = [
-		"Ask again later.",
-		"Better not tell you now.",
-		"Concentrate and ask again.",
-		"Don't count on it.",
-		"It is certain.",
-		"Most likely.",
-		"My reply is no.",
-		"My sources say no.",
-		"No.",
-		"Outlook good.",
-		"Outlook not so good.",
-		"Reply hazy, try again.",
-		"Signs point to yes.",
-		"Yes.",
-		"Yes, definitely.",
-		"You may rely on it."
+		"Ask again later",
+		"Better not tell you now",
+		"Concentrate and ask again",
+		"Don't count on it",
+		"It is certain",
+		"Most likely",
+		"My reply is no",
+		"My sources say no",
+		"No",
+		"Outlook good",
+		"Outlook not so good",
+		"Reply hazy, try again",
+		"Signs point to yes",
+		"Yes",
+		"Yes, definitely",
+		"You may rely on it"
 	];
 
 	var item = lines[Math.floor(Math.random()*lines.length)];
@@ -51,7 +51,7 @@ Plugin.prototype.trig8Ball = function(msg) {
 	// Shake the ball first then send the result
 	chan.emote('shakes the magic 8-ball...')
 
-	setTimeout(function() { chan.send(item); }, '1000');
+	setTimeout(function() { chan.send(item +', '+ msg.nick); }, '1000');
 
 
 };
