@@ -79,8 +79,6 @@ describe("IRC", function(){
 			var message = 'PRIVMSG #stubChannel1 :\001ACTION is stupid \001\r\n';
 			var result = _irc.connection.message;
 
-			console.log(result);
-
 			JSON.stringify(result).should.equal(JSON.stringify(message));
 		})
 	})
