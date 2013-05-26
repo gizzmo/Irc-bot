@@ -15,6 +15,10 @@ var options = {
 
 var config = pkgconfig(options);
 
+if (argv.logLevel) {
+	config.logLevel = argv.logLevel;
+};
+
 var logger = new (winston.Logger)({
 	transports: [
 		new (winston.transports.Console)({ level: config.logLevel, colorize: true })

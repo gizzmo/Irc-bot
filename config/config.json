@@ -6,7 +6,7 @@
 	"realname": "Powered by NodeJS",
 	"channels": ["#TestChannel"],
 	"command": "!",
-	"logLevel": "verbose",
+	"logLevel": "debug",
 
 	"plugins": [
 		"reload",
