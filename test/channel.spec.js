@@ -121,15 +121,4 @@ describe("Channel", function() {
 			JSON.stringify(result).should.equal(JSON.stringify(message));
 		})
 	})
-
-	describe('#emote', function() {
-		it('should send PRIVMSG with action special characters', function() {
-			var chan = _irc.channels.find('#stubChannel1').emote('is stupid');
-
-			var message = 'PRIVMSG #stubChannel1 :ACTION is stupid ';
-			var result = _irc.resultMessage;
-
-			JSON.stringify(result).should.equal(JSON.stringify(message));
-		})
-	})
 })

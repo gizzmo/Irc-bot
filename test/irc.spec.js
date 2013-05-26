@@ -71,4 +71,18 @@ describe("IRC", function(){
 		("closed").should.equal(con.readyState);
 	})
 
+
+	describe('#action', function() {
+		it('should send PRIVMSG with action special characters', function() {
+			var chan = _irc.action('#stubChannel1', 'is stupid');
+
+			var message = 'PRIVMSG #stubChannel1 :\001ACTION is stupid \001\r\n';
+			var result = _irc.connection.message;
+
+			console.log(result);
+
+			JSON.stringify(result).should.equal(JSON.stringify(message));
+		})
+	})
+
 });
