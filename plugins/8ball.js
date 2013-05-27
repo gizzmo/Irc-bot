@@ -46,6 +46,18 @@ Plugin.prototype.trig8Ball = function(msg) {
 		"You may rely on it"
 	];
 
+	// 1 in 100 chance for insult instead of 8ball usage
+	if (Math.floor(Math.random()*100) === 1) {
+
+		var insults = [
+			'Seriously, thats the question your going to ask?',
+			'Couldnt think of a better question?'
+		]
+
+		var insult = insults[Math.floor(Math.random()*insults.length)];
+		return chan.send(insult);
+	};
+
 	var item = lines[Math.floor(Math.random()*lines.length)];
 
 	// Shake the ball first then send the result

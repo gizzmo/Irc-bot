@@ -9,7 +9,9 @@
 	"logLevel": "debug",
 
 	"plugins": [
-		"reload",
-		"8ball"
+		"8ball",
+		"insult",
+		"knock_knock",
+		"ping"
 	]
 }
