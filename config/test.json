@@ -13,5 +13,5 @@
 		}
 	},
 
-	"plugins":  ["global", "reload"]
+	"plugins":  []
 }
