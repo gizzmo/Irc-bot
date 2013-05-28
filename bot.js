@@ -31,5 +31,28 @@ config.logger = logger;
 /**
  * Let's power up
  */
-var ircClient = new irc.Irc(config);
-ircClient.connect();
+var bot = new irc.Irc(config);
+bot.connect();
+
+
+
+// Allow input form the command line
+var rl = require('readline').createInterface(process.stdin, process.stdout),
+
+rl.on('line', function(line) {
+	// start processing the line
+	var params = line.split(' ');
+
+	switch(params[0].toLowerCase()) {
+		case 'join':  bot.channels.new(params[1], true, params[2]); break;
+		case 'leave': bot.channels.find(params[1]).part('Admin requested me to leave!'); break;
+	}
+
+	rl.prompt();
+}).on('close', function() {
+	bot.raw('QUIT', ':Shutdown from commandline, Good bye!');
+	bot.logger.info("Shutting down, Good bye!");
+	process.exit(0);
+});
+
+rl.prompt();

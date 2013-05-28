@@ -9,7 +9,6 @@
 	"logLevel": "debug",
 
 	"plugins": [
-		"help",
 		"8ball",
 		"insult",
 		"knock_knock",

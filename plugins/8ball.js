@@ -35,11 +35,11 @@ Plugin.prototype.trig8Ball = function(line) {
 	}
 
 	// 1 in 100 chance for insult instead of 8ball usage
-	if (Math.floor(Math.random()*100) === 1) {
+	if (Math.floor(Math.random()*1000) === 1) {
 
 		var insults = [
 			'Seriously, thats the question you\'re going to ask?',
-			'Could\'nt think of a better question?'
+			'Couldn\'t think of a better question?'
 		]
 
 		var insult = insults[Math.floor(Math.random()*insults.length)];
@@ -70,6 +70,6 @@ Plugin.prototype.trig8Ball = function(line) {
 	// Shake the ball first then send the result
 	chan.action('shakes the magic 8-ball...');
 
-	setTimeout(function() { chan.send(item +', '+ msg.nick); }, '1000');
+	setTimeout(function() { chan.send(item +', '+ user.nick); }, '1500');
 
 };
