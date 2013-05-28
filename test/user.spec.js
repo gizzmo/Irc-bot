@@ -17,20 +17,20 @@ describe('Users', function() {
 
 	describe('#new', function() {
 		it('should return a instance of User', function() {
-			var result = _irc.users.new('stubUser');
+			var result = _irc.users.new('stubNewUser');
 
 			(result instanceof user.User).should.be.true;
 		})
 
 		it('should add to Users array', function() {
-			var newUser = _irc.users.new('#stubUser');
+			var newUser = _irc.users.new('stubNewUser');
 
-			(_irc.users.users[1]).should.equal(newUser);
+			(_irc.users.users[2]).should.equal(newUser);
 		})
 
 		it('should return the old object of it already exists',function() {
-			var oldUser = _irc.users.new('stubUser');
-			var newUser = _irc.users.new('stubUser');
+			var oldUser = _irc.users.new('stubNewUser');
+			var newUser = _irc.users.new('stubNewUser');
 
 			(newUser).should.equal(oldUser);
 		})

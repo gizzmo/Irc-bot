@@ -7,36 +7,38 @@ var util = require('util'),
 Plugin = exports.Plugin = function(irc, name) {
 	Plugin.super_.call(this, irc, name);
 
+	// Plugin name and version
 	this.title = 'Insult';
 	this.version = '0.1';
 
 	// Help info with info on the commands
 	this.help = 'Have the bot instult people, or your self.';
 	this.helpCommands = [
-		this.irc.config.command + 'insult <target> (if target is empty, it\'ll insult you)'
+		this.irc.config.command + 'insult <target> (if target is empty, you\'ll be insulted)'
 	];
 
+	// Triggers are messages that start with `!`
 	this.irc.addTrigger(this, 'insult', this.trigInsult);
 };
 util.inherits(Plugin, basePlugin.BasePlugin);
 
-Plugin.prototype.trigInsult = function(msg) {
-	var irc = this.irc,          // irc object
-		nick = msg.nick,         // nick
-		chan = irc.channels.find(msg.arguments[0]),  // channel object
-		m = msg.arguments[1],    // message
-		params = m.split(' ');   // params
+Plugin.prototype.trigInsult = function(line) {
+	var irc = this.irc,
+		user = irc.users.find(line.nick),
+		chan = irc.channels.find(line.arguments[0]),
+		msg = line.arguments[1],
+		params = msg.split(' ');
 
-	params.shift();
-
+	// The first params is always the trigger (ie !command)
+	params.shift()
 	if (params.length === 0) {
-		this.Insult(nick, chan);
+		this.Insult(user.nick, chan);
 	}
 	else if (params[0] !== irc.nick) {
 		this.Insult(params[0], chan);
 	}
 	else {
-		this.Insult(nick, chan);
+		this.Insult(user.nick, chan);
 	}
 
 };

@@ -14,7 +14,7 @@ Plugin = exports.Plugin = function(irc, name) {
 	// Help info with info on the commands
 	this.help = 'Ask the Magic 8 Ball a question.';
 	this.helpCommands = [
-		this.irc.config.command + '8ball <question>.'
+		this.irc.config.command + '8ball <question>'
 	];
 
 	// Triggers are messages that start with `!`
@@ -22,18 +22,29 @@ Plugin = exports.Plugin = function(irc, name) {
 };
 util.inherits(Plugin, basePlugin.BasePlugin);
 
-Plugin.prototype.trig8Ball = function(msg) {
-	var irc = this.irc,          // irc object
-		nick = msg.nick,         // nick
-		chan = irc.channels.find(msg.arguments[0]),  // channel object
-		m = msg.arguments[1],    // message
-		params = m.split(' ');   // params
+Plugin.prototype.trig8Ball = function(line) {
+	var irc = this.irc,
+		user = irc.users.find(line.user),
+		chan = irc.channels.find(line.arguments[0]),
+		msg = line.arguments[1],
+		params = msg.split(' ');
 
-	params.shift();
-
-	if (typeof params[0] == 'undefined') {
+	// The first params is always the trigger (ie !command)
+	if (typeof params[1] == 'undefined') {
 		return chan.send('\002Example:\002 '+ this.helpCommands[0]);
 	}
+
+	// 1 in 100 chance for insult instead of 8ball usage
+	if (Math.floor(Math.random()*100) === 1) {
+
+		var insults = [
+			'Seriously, thats the question you\'re going to ask?',
+			'Could\'nt think of a better question?'
+		]
+
+		var insult = insults[Math.floor(Math.random()*insults.length)];
+		return chan.send(insult);
+	};
 
 	var lines = [
 		"Ask again later",
@@ -54,24 +65,11 @@ Plugin.prototype.trig8Ball = function(msg) {
 		"You may rely on it"
 	];
 
-	// 1 in 100 chance for insult instead of 8ball usage
-	if (Math.floor(Math.random()*100) === 1) {
-
-		var insults = [
-			'Seriously, thats the question your going to ask?',
-			'Couldnt think of a better question?'
-		]
-
-		var insult = insults[Math.floor(Math.random()*insults.length)];
-		return chan.send(insult);
-	};
-
 	var item = lines[Math.floor(Math.random()*lines.length)];
 
 	// Shake the ball first then send the result
 	chan.action('shakes the magic 8-ball...');
 
 	setTimeout(function() { chan.send(item +', '+ msg.nick); }, '1000');
-
 
 };

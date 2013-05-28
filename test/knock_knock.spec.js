@@ -23,7 +23,7 @@ describe("KnockKnock", function(){
 		_knock_knock.progress.should.equal(1);
 
 		// if somone else
-		var result = 'PRIVMSG #stubChannel :I\'m already telling a joke, stubUser';
+		var result = 'PRIVMSG #stubChannel :Shush stubUser, I\'m already telling a joke! Try again in a min.';
 
 		var call = _knock_knock.trigJoke(test);
 		var resultMessage = _irc.resultMessage;

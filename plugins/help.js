@@ -1,8 +1,6 @@
 /**
- * Help Plugin - Prints differnt help messages on the
- * IRC channel (as a privmessage)
+ * Help Plugin - Prints differnt help messages on the IRC channel (as a privmessage)
  */
-
 var util = require('util'),
 	basePlugin = require('./basePlugin');
 
@@ -24,15 +22,10 @@ Plugin = exports.Plugin = function(irc, name) {
 };
 util.inherits(Plugin, basePlugin.BasePlugin);
 
-Plugin.prototype.trigHelp = function(msg) {
+Plugin.prototype.trigHelp = function(line) {
 	var irc = this.irc,
-		user = irc.users.find(msg.user),
-		chan = irc.channels.find(msg.arguments[0]),
-		m = msg.arguments[1],
-		params = m.split(' ');
-
-	// first is always the trigger (ie !command)
-	params.shift();
+		user = irc.users.find(line.user),
+		chan = irc.channels.find(line.arguments[0]);
 
 	user.send('\002Available Plugins\002 and their commands:');
 	for(var name in irc.plugins) {

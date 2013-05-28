@@ -1,5 +1,5 @@
 /**
- * Know Knock joke Plugin
+ * Knock-Knock joke Plugin
  */
 var util = require('util'),
 	basePlugin = require('./basePlugin');
@@ -7,6 +7,7 @@ var util = require('util'),
 Plugin = exports.Plugin = function(irc, name) {
 	Plugin.super_.call(this, irc, name);
 
+	// Plugin name and version
 	this.title = 'Knock Knock Plugin';
 	this.version = '0.1';
 
@@ -25,51 +26,44 @@ Plugin = exports.Plugin = function(irc, name) {
 
 util.inherits(Plugin, basePlugin.BasePlugin)
 
-Plugin.prototype.trigJoke = function(msg) {
+Plugin.prototype.trigJoke = function(line) {
 	var irc = this.irc,
-		user = irc.users.find(msg.nick), // the user who send the message
-		chan = irc.channels.find(msg.arguments[0]), // the channel it was sent to
-		m = msg.arguments[1]; // the message its self
+		user = irc.users.find(line.nick),
+		chan = irc.channels.find(line.arguments[0]), // the channel it was sent to
+		msg = line.arguments[1]; // the message its self
 
 	if (this.progress === 0){
 		++this.progress;
 		return chan.send('Ok, i\'ve got a joke for you. Knock Knock!');
 	}
 	else {
-		return chan.send('I\'m already telling a joke, '+ user.nick);
+		return chan.send('Shush '+user.nick+', I\'m already telling a joke! Try again in a min.');
 	}
+
+	// reset progress after 1 minutes
+	var self = this;
+	this.reset = setTimeout(function() { that.progress = 0 }, 60*1000);
 };
 
-Plugin.prototype.onMessage = function(msg) {
+Plugin.prototype.onMessage = function(line) {
 	var irc = this.irc,
-		user = irc.users.find(msg.nick), // the user who send the message
-		chan = irc.channels.find(msg.arguments[0]), // the channel it was sent to
-		m = msg.arguments[1]; // the message its self
+		user = irc.users.find(line.nick),
+		chan = irc.channels.find(line.arguments[0]),
+		msg = line.arguments[1];
 
 	if (this.progress === 1) {
-		if ( m.match(/^who(\'?s| is) there/i) ) {
+		if ( msg.match(/^who(\'?s| is) there/i) ) {
 			++this.progress;
 
 			return chan.send('Doris!');
 		}
 	}
 	else if (this.progress == 2) {
-		if ( m.match(/doris who/i) ) {
+		if ( msg.match(/doris who/i) ) {
 			this.progress = 0;
+			clearTimeout(this.reset);
 
 			return chan.send('Doris locked, that\'s why im knocking!');
 		};
 	}
 };
-/**
- * List all possible Event Listeners
-Plugin.prototype.onConnect = function(msg) {};
-Plugin.prototype.onData = function(msg) {};
-Plugin.prototype.onNumeric = function(msg) {};
-Plugin.prototype.onMessage = function(msg) {};
-Plugin.prototype.onJoin = function(msg) {};
-Plugin.prototype.onPart = function(msg) {};
-Plugin.prototype.onQuit = function(msg) {};
-Plugin.prototype.onNick = function(msg) {};
-Plugin.prototype.onPrivateMessage = function(msg) {};
- */

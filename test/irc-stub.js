@@ -13,10 +13,10 @@ Irc = exports.Irc = function(config) {
 		  new (winston.transports.Console)({ level: "error" })
 		]
 	});
-
-	config.command = "!";
-
 	this.logger = logger;
+
+	// make sure configs are set!
+	config.command = "!";
 
 	this.initialize(config);
 };
@@ -27,14 +27,13 @@ Irc.prototype.initialize = function(config) {
 	// user constructor and user hash
 	this.nick = 'stubBotNick';
 
-	this.command = '!';
-
 	// Initialize channels
 	this.channels = new channel.Channels(this);
 	this.channels.new('#stubChannel', false);
 
 	// initialize users
 	this.users = new user.Users(this);
+	this.users.new('stubBotNick');
 	this.users.new('stubUser');
 
 	this.triggers = {};
@@ -44,22 +43,15 @@ Irc.prototype.initialize = function(config) {
 	this.config = config;
 };
 
-Irc.prototype.user = function(nick){
-	return nick;
-}
-
 Irc.prototype.addTrigger = function(plugin, trigger, callback) {
 	if (typeof this.triggers[trigger] == 'undefined') {
 		this.triggers[trigger ] = { plugin: plugin.name, callback: callback};
 	}
 };
 
-Irc.prototype.raw = function(cmd) {
-//    if (this.connection.readyState !== "open") {
-//        return this.disconnect("cannot send with readyState " + this.connection.readyState);
-//    }
-	var msg = Array.prototype.slice.call(arguments, 1).join(' ') + "";
-	this.resultMessage = cmd + " " + msg, this.encoding;
+Irc.prototype.raw = function() {
+	var msg = Array.prototype.slice.call(arguments).join(' ');
+	this.resultMessage = msg;
 };
 
 // public method to send PRIVMSG cleanly

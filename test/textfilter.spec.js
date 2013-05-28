@@ -19,12 +19,12 @@ describe("Textfilter", function(){
 		it('should respond with a matching message send to the nick which used the bad word', function() {
 
 			var checks = [
-				[':stubOtherUserNick stubBotNick #stubChannel :The message contains swine',
-				'PRIVMSG #stubChannel :\u0002stubOtherUserNick:\u0002 Watch your language!'],
-				[':stubOtherUserNick stubBotNick #stubChannel :The message contains politician',
-				'PRIVMSG #stubChannel :\u0002stubOtherUserNick:\u0002 Watch your language!'],
-				[':stubOtherUserNick stubBotNick #stubChannel :The message contains girl',
-				'PRIVMSG #stubChannel :\u0002stubOtherUserNick:\u0002 Watch your language!']
+				[':stubUser!~stubUser@irc.server.com PRIVMSG #stubChannel :The message contains swine',
+				'PRIVMSG #stubChannel :\u0002stubUser:\u0002 Watch your language!'],
+				[':stubUser!~stubUser@irc.server.com PRIVMSG #stubChannel :The message contains politician',
+				'PRIVMSG #stubChannel :\u0002stubUser:\u0002 Watch your language!'],
+				[':stubUser!~stubUser@irc.server.com PRIVMSG #stubChannel :The message contains girl',
+				'PRIVMSG #stubChannel :\u0002stubUser:\u0002 Watch your language!']
 			];
 
 			checks.forEach(function(obj) {
@@ -41,7 +41,7 @@ describe("Textfilter", function(){
 		it('should do nothing if there is no stopword in the message', function() {
 
 			var checks = [
-				[':stubOtherUserNick stubBotNick #stubChannel :The message is a nice guy',
+				[':stubUser!~stubUser@irc.server.com PRIVMSG #stubChannel :The message is a nice guy',
 				'NOTHING HAPPENED']
 			];
 
@@ -59,7 +59,7 @@ describe("Textfilter", function(){
 		it('should do nothing if the bot itself is using bad words', function() {
 
 			var checks = [
-				[':stubBotNick stubBotNick #stubChannel :The message is a swine',
+				[':stubBotNick!~stubBotNick@irc.server.com PRIVMSG #stubChannel :The message is a swine',
 				'NOTHING HAPPENED']
 			];
 

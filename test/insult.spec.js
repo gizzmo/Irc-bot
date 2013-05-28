@@ -12,18 +12,25 @@ describe("Insult", function(){
 		_insult = new insult.Plugin(_irc, 'insult');
 	})
 
-	describe("#insult()", function() {
+	describe("#trigInsult()", function() {
 		it('should insult the user who sent the command', function() {
-			var test = new message.Message(':stubOtherUserNick stubBotNick #stubChannel :!insult');
-			var result = /PRIVMSG #stubChannel :stubOtherUserNick! You ([^\s]*), ([^\s]*) ([^\s]*)!/;
+			var test = new message.Message(':stubUser!~stubUser@irc.network.com PRIVMSG #stubChannel :!insult');
+			var result = /PRIVMSG #stubChannel :stubUser! You ([^\s]*), ([^\s]*) ([^\s]*)!/;
 			var call = _insult.trigInsult(test);
 			var resultMessage = _irc.resultMessage;
 			JSON.stringify(resultMessage).should.match(result);
 
-		}),
+		})
 		it('should insult the intend target', function() {
-			var test = new message.Message(':stubOtherUserNick stubBotNick #stubChannel :!insult thirdUser');
+			var test = new message.Message(':stubUser!~stubUser@irc.network.com PRIVMSG #stubChannel :!insult thirdUser');
 			var result = /PRIVMSG #stubChannel :thirdUser! You ([^\s]*), ([^\s]*) ([^\s]*)!/;
+			var compare = _insult.trigInsult(test);
+			var resultMessage = _irc.resultMessage;
+			JSON.stringify(resultMessage).should.match(result);
+		})
+		it('should\'nt insult the bot', function() {
+			var test = new message.Message(':stubUser!~stubUser@irc.network.com PRIVMSG #stubChannel :!insult stubBotNick');
+			var result = /PRIVMSG #stubChannel :stubUser! You ([^\s]*), ([^\s]*) ([^\s]*)!/;
 			var compare = _insult.trigInsult(test);
 			var resultMessage = _irc.resultMessage;
 			JSON.stringify(resultMessage).should.match(result);
