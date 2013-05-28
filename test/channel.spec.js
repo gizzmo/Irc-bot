@@ -45,6 +45,20 @@ describe('Channels', function() {
 			var test2 = _irc.channels.new('');
 			should.not.exist(test2);
 		})
+
+		it('should rejoin a old channel that was left', function() {
+			// Setup and make sure we dont join the channel
+			var chan = _irc.channels.new('#stubChannel', false);
+			var message = 'NOTHING HAPPENED';
+			var result = _irc.resultMessage;
+			JSON.stringify(result).should.equal(JSON.stringify(message));
+
+			// find already existing channel and try to join it
+			var chan = _irc.channels.new('#stubChannel', true);
+			var message = 'JOIN #stubChannel ';
+			var result = _irc.resultMessage;
+			JSON.stringify(result).should.equal(JSON.stringify(message));
+		})
 	})
 	describe('#find', function() {
 
