@@ -13,6 +13,12 @@ Plugin = exports.Plugin = function(irc, name) {
 
 	this.filters = [];
 
+	// Help info with info on the commands
+	this.help = 'Warns users when they use a word that is not aloud.';
+	this.helpCommands = [
+		this.irc.config.command + 'textfilter <addword|removeword> <word>'
+	];
+
 	this.irc.addTrigger(this, 'textfilter', this.trigTextfilter);
 };
 util.inherits(Plugin, basePlugin.BasePlugin);
@@ -51,7 +57,7 @@ Plugin.prototype.trigTextfilter = function(msg) {
 
 	params.shift();
 	if (typeof params[0] === 'undefined') {
-		chan.send('\002Example:\002 ' + irc.config.command + 'textfilter <addword|removeword> <word>');
+		chan.send('\002Example:\002 ' + this.helpCommands[0]);
 	}
 	else if (params[0] === 'addword') {
 		this.filters.push(params[1]);

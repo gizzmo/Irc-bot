@@ -7,9 +7,17 @@ var util = require('util'),
 Plugin = exports.Plugin = function(irc, name) {
 	Plugin.super_.call(this, irc, name);
 
+	// Plugin name and version
 	this.title = '8Ball';
 	this.version = '0.0.1';
 
+	// Help info with info on the commands
+	this.help = 'Ask the Magic 8 Ball a question.';
+	this.helpCommands = [
+		this.irc.config.command + '8ball <question>.'
+	];
+
+	// Triggers are messages that start with `!`
 	this.irc.addTrigger(this, '8ball', this.trig8Ball);
 };
 util.inherits(Plugin, basePlugin.BasePlugin);
@@ -24,7 +32,7 @@ Plugin.prototype.trig8Ball = function(msg) {
 	params.shift();
 
 	if (typeof params[0] == 'undefined') {
-		return chan.send('\002Example:\002 ' + irc.config.command + '8ball <question>');
+		return chan.send('\002Example:\002 '+ this.helpCommands[0]);
 	}
 
 	var lines = [

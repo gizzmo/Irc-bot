@@ -10,6 +10,12 @@ Plugin = exports.Plugin = function(irc, name) {
 	this.title = 'Ping';
 	this.version = '0.1';
 
+	// Help info with info on the commands
+	this.help = 'Simple ping test.';
+	this.helpCommands = [
+		this.irc.config.command + 'ping'
+	];
+
 	this.irc.addTrigger(this, 'ping', this.trigPing);
 };
 util.inherits(Plugin, basePlugin.BasePlugin);

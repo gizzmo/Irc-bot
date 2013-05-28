@@ -10,6 +10,12 @@ Plugin = exports.Plugin = function(irc, name) {
 	this.title = 'Knock Knock Plugin';
 	this.version = '0.1';
 
+	// Help info with info on the commands
+	this.help = 'This plugin tells knock-knock jokes (right now only one, maye more soon).';
+	this.helpCommands = [
+		this.irc.config.command + 'joke - starts the knock-knock joke.'
+	];
+
 	// Triggers are messages that start with `!`
 	this.irc.addTrigger(this, 'joke', this.trigJoke);
 

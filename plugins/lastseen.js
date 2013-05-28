@@ -13,6 +13,12 @@ Plugin = exports.Plugin = function(irc, name) {
 
 	this.seen = [];
 
+	// Help info with info on the commands
+	this.help = 'Keeps track of people, and informs other people of the last time they were seen.';
+	this.helpCommands = [
+		this.irc.config.command + 'lastseen <user>.'
+	];
+
 	this.irc.addTrigger(this, 'lastseen', this.trigLastSeen);
 };
 util.inherits(Plugin, basePlugin.BasePlugin);
@@ -58,7 +64,7 @@ Plugin.prototype.trigLastSeen = function(msg) {
 	params.shift();
 
 	if (typeof params[0] == 'undefined') {
-		chan.send('\002Example:\002 ' + this.irc.config.command + 'seen <name>');
+		chan.send('\002Example:\002 '+ this.helpCommands[0]);
 	} else {
 		var seek = params[0].toLowerCase();
 

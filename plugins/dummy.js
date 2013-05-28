@@ -1,5 +1,5 @@
 /**
- * Dummy Plugin to test IRC functionalities
+ * Dummy Plugin
  */
 var util = require('util'),
 	basePlugin = require('./basePlugin');
@@ -9,6 +9,12 @@ Plugin = exports.Plugin = function(irc, name) {
 
 	this.title = 'Dummy Plugin';
 	this.version = '0.1';
+
+	// Help info with info on the commands
+	this.help = 'This is a dummy plugin to aid in making plugins easyer.';
+	this.helpCommands = [
+		this.irc.config.command + 'dummy - does something.'
+	];
 
 	// Triggers are messages that start with `!`
 	this.irc.addTrigger(this, 'trigger', this.trigTrigger);

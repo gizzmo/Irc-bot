@@ -10,6 +10,12 @@ Plugin = exports.Plugin = function(irc, name) {
 	this.title = 'Insult';
 	this.version = '0.1';
 
+	// Help info with info on the commands
+	this.help = 'Have the bot instult people, or your self.';
+	this.helpCommands = [
+		this.irc.config.command + 'insult <target> (if target is empty, it\'ll insult you)'
+	];
+
 	this.irc.addTrigger(this, 'insult', this.trigInsult);
 };
 util.inherits(Plugin, basePlugin.BasePlugin);
