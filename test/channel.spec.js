@@ -115,9 +115,9 @@ describe("Channel", function() {
 			JSON.stringify(result).should.equal(JSON.stringify(message))
 		})
 	}),
-	describe('#part', function() {
+	describe('#leave', function() {
 		it('should send PART command', function() {
-			var chan = _irc.channels.find('#stubChannel1').part('Some stupid reason');
+			var chan = _irc.channels.find('#stubChannel1').leave('Some stupid reason');
 
 			var message = 'PART #stubChannel1 :Some stupid reason'
 			var result = _irc.resultMessage;
