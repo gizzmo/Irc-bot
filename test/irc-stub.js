@@ -29,7 +29,7 @@ Irc.prototype.initialize = function(config) {
 
 	// Initialize channels
 	this.channels = new channel.Channels(this);
-	this.channels.new('#stubChannel', false);
+	this.channels.new('#stubChannel', false).inRoom = true;
 
 	// initialize users
 	this.users = new user.Users(this);

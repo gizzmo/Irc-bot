@@ -1,6 +1,6 @@
 /**
-* Plugin Helper Class
-*/
+ * Plugin Helper Class
+ */
 
 BasePlugin = exports.BasePlugin = function(irc, name) {
 	this.irc = irc;

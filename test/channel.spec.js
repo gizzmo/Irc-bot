@@ -101,7 +101,7 @@ describe("Channel", function() {
 		_irc = new irc.Irc(config);
 
 		// Initialize channels
-		_irc.channels.new('#stubChannel1', false);
+		_irc.channels.new('#stubChannel1', false).inRoom = true;
 
 	});
 
