@@ -24,7 +24,7 @@ util.inherits(Plugin, basePlugin.BasePlugin);
 
 Plugin.prototype.trig8Ball = function(line) {
 	var irc = this.irc,
-		user = irc.users.find(line.user),
+		user = irc.users.find(line.nick),
 		chan = irc.channels.find(line.arguments[0]),
 		msg = line.arguments[1],
 		params = msg.split(' ');
@@ -46,7 +46,7 @@ Plugin.prototype.trig8Ball = function(line) {
 		return chan.send(insult);
 	};
 
-	var lines = [
+	var responses = [
 		"Ask again later",
 		"Better not tell you now",
 		"Concentrate and ask again",
@@ -65,11 +65,11 @@ Plugin.prototype.trig8Ball = function(line) {
 		"You may rely on it"
 	];
 
-	var item = lines[Math.floor(Math.random()*lines.length)];
+	var response = responses[Math.floor(Math.random()*responses.length)];
 
 	// Shake the ball first then send the result
 	chan.action('shakes the magic 8-ball...');
 
-	setTimeout(function() { chan.send(item +', '+ user.nick); }, '1500');
+	setTimeout(function() { chan.send(response +', '+ user.nick) }, '1500');
 
 };
