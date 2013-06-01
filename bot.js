@@ -17,7 +17,7 @@ var config = pkgconfig(options);
 
 if (argv.logLevel) {
 	config.logLevel = argv.logLevel;
-};
+}
 
 var logger = new (winston.Logger)({
 	transports: [
@@ -45,7 +45,7 @@ rl.on('line', function(line) {
 
 	switch(params[0].toLowerCase()) {
 		case 'join':
-			var chan = bot.channels.new(params[1], true, params[2]);
+			bot.channels.new(params[1], true, params[2]);
 			break;
 
 		case 'leave':
@@ -55,9 +55,9 @@ rl.on('line', function(line) {
 
 		case 'say':
 			if (chan = bot.channels.find(params[1]))
-				chan.send(params.slice(2).join(' '))
+				chan.send(params.slice(2).join(' '));
 			else if (user = bot.users.find(params[1]))
-				user.send(params.slice(2).join(' '))
+				user.send(params.slice(2).join(' '));
 			break;
 	}
 
