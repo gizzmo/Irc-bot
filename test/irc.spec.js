@@ -83,9 +83,9 @@ describe("IRC", function(){
 	})
 
 
-	describe('#send', function() {
+	describe('#say', function() {
 		it('should send PRIVMSG', function() {
-			var chan = _irc.send('#stubChannel1', 'this is stupid');
+			var chan = _irc.say('#stubChannel1', 'this is stupid');
 
 			var message = 'PRIVMSG #stubChannel1 :this is stupid\r\n';
 			var result = _irc.connection.message;

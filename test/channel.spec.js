@@ -125,9 +125,9 @@ describe("Channel", function() {
 			JSON.stringify(result).should.equal(JSON.stringify(message));
 		})
 	}),
-	describe('#send', function() {
+	describe('#say', function() {
 		it('should send PRIVMSG command', function() {
-			var chan = _irc.channels.find('#stubChannel1').send('Some stupid message');
+			var chan = _irc.channels.find('#stubChannel1').say('Some stupid message');
 
 			var message = 'PRIVMSG #stubChannel1 :Some stupid message';
 			var result = _irc.resultMessage;

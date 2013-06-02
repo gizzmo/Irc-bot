@@ -55,7 +55,7 @@ Irc.prototype.raw = function() {
 };
 
 // public method to send PRIVMSG cleanly
-Irc.prototype.send = function(target, msg) {
+Irc.prototype.say = function(target, msg) {
 
 	msg = Array.prototype.slice.call(arguments, 1).join(' ');
 

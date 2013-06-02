@@ -66,18 +66,18 @@ Plugin.prototype.trigLastSeen = function(line) {
 	params.shift();
 
 	if (typeof params[0] == 'undefined') {
-		chan.send('\002Example:\002 '+ this.helpCommands[0]);
+		chan.say('\002Example:\002 '+ this.helpCommands[0]);
 	} else {
 		var seek = params[0].toLowerCase();
 
 		if (typeof this.seen[seek] == 'undefined') {
-			chan.send('I have not seen \002' + params[ 0] + '\002 around here!');
+			chan.say('I have not seen \002' + params[ 0] + '\002 around here!');
 		} else {
 			var dat = this.seen[seek],
 				lastDate = dat.getDate() + '-' + (dat.getMonth() + 1) + '-' + dat.getFullYear(),
 				lastTime = dat.getHours() + ':' + dat.getMinutes() + ':' + dat.getSeconds();
 
-			chan.send('I have seen \002' + params[ 0] + '\002 around here the last time on the: \002' + lastDate + '\002 at \002' + lastTime + '\002');
+			chan.say('I have seen \002' + params[ 0] + '\002 around here the last time on the: \002' + lastDate + '\002 at \002' + lastTime + '\002');
 		}
 	}
 };

@@ -26,6 +26,6 @@ Plugin.prototype.trigPing = function(line) {
 	var irc = this.irc,
 		chan = irc.channels.find(line.arguments[0]);
 
-	chan.send('Pong!');
+	chan.say('Pong!');
 
 };

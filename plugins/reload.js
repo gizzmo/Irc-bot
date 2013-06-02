@@ -23,13 +23,13 @@ Plugin.prototype.loadPlugin = function(msg) {
 		params = m.split(' ');
 
 	params.shift();
-	irc.send(chan && chan.name || u, 'Reloading plugin: ' + params[0]);
+	irc.say(chan && chan.name || u, 'Reloading plugin: ' + params[0]);
 
 	// dont crash on failure
 	try {
 		irc.loadPlugin(params[0]);
 	} catch (err) {
-		chan.send(err)
+		chan.say(err)
 	}
 
 };
@@ -42,6 +42,6 @@ Plugin.prototype.unloadPlugin = function(msg) {
 		params = m.split(' ');
 
 	params.shift();
-	irc.send(chan && chan.name || u, 'unloading plugin: ' + params[ 0]);
+	irc.say(chan && chan.name || u, 'unloading plugin: ' + params[ 0]);
 	irc.unloadPlugin(params[0]);
 };

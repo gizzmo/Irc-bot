@@ -31,7 +31,7 @@ Plugin.prototype.trig8Ball = function(line) {
 
 	// The first params is always the trigger (ie !command)
 	if (typeof params[1] == 'undefined') {
-		return chan.send('\002Example:\002 '+ this.helpCommands[0]);
+		return chan.say('\002Example:\002 '+ this.helpCommands[0]);
 	}
 
 	// 1 in 100 chance for insult instead of 8ball usage
@@ -43,7 +43,7 @@ Plugin.prototype.trig8Ball = function(line) {
 		]
 
 		var insult = insults[Math.floor(Math.random()*insults.length)];
-		return chan.send(insult);
+		return chan.say(insult);
 	};
 
 	var responses = [
@@ -70,6 +70,6 @@ Plugin.prototype.trig8Ball = function(line) {
 	// Shake the ball first then send the result
 	chan.action('shakes the magic 8-ball...');
 
-	setTimeout(function() { chan.send(response +', '+ user.nick) }, '1500');
+	setTimeout(function() { chan.say(response +', '+ user.nick) }, '1500');
 
 };

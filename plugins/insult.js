@@ -77,5 +77,5 @@ Plugin.prototype.Insult = function(target, chan) {
 		word2 = col2[Math.floor(Math.floor(Math.random()*col2.length))],
 		word3 = col3[Math.floor(Math.floor(Math.random()*col3.length))];
 
-	chan.send(target+'! You '+word1+', '+word2+' '+word3+'!');
+	chan.say(target+'! You '+word1+', '+word2+' '+word3+'!');
 }

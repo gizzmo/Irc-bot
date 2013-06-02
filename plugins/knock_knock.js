@@ -34,10 +34,10 @@ Plugin.prototype.trigJoke = function(line) {
 
 	if (this.progress === 0){
 		++this.progress;
-		return chan.send('Ok, i\'ve got a joke for you. Knock Knock!');
+		return chan.say('Ok, i\'ve got a joke for you. Knock Knock!');
 	}
 	else {
-		return chan.send('Shush '+user.nick+', I\'m already telling a joke! Try again in a min.');
+		return chan.say('Shush '+user.nick+', I\'m already telling a joke! Try again in a min.');
 	}
 
 	// reset progress after 1 minutes
@@ -55,7 +55,7 @@ Plugin.prototype.onMessage = function(line) {
 		if ( msg.match(/^who(\'?s| is) there/i) ) {
 			++this.progress;
 
-			return chan.send('Doris!');
+			return chan.say('Doris!');
 		}
 	}
 	else if (this.progress == 2) {
@@ -63,7 +63,7 @@ Plugin.prototype.onMessage = function(line) {
 			this.progress = 0;
 			clearTimeout(this.reset);
 
-			return chan.send('Doris locked, that\'s why im knocking!');
+			return chan.say('Doris locked, that\'s why im knocking!');
 		};
 	}
 };

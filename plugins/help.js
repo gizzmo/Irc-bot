@@ -27,20 +27,20 @@ Plugin.prototype.trigHelp = function(line) {
 		user = irc.users.find(line.nick),
 		chan = irc.channels.find(line.arguments[0]);
 
-	user.send('\002Available Plugins\002 and their commands:');
+	user.say('\002Available Plugins\002 and their commands:');
 	for(var name in irc.plugins) {
 		var plugin = irc.plugins[name];
-		user.send('Plugin: '+ plugin.title +' - v' + plugin.version);
+		user.say('Plugin: '+ plugin.title +' - v' + plugin.version);
 
 		var helpMessage = plugin.help;
 		if (typeof helpMessage !== 'undefined') {
-			user.send('--'+ helpMessage);
+			user.say('--'+ helpMessage);
 		}
 
 		var helpCommands = plugin.helpCommands;
 		if (typeof helpCommands !== 'undefined') {
 			for (i in helpCommands) {
-				user.send('--'+ helpCommands[i]);
+				user.say('--'+ helpCommands[i]);
 			}
 		}
 	}

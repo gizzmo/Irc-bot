@@ -42,7 +42,7 @@ Plugin.prototype.trigNickServ = function(msg) {
 	params.shift();
 
 	if (typeof params[0] == 'undefined') {
-		chan.send('\002Example:\002 ' + this.irc.config.command + 'freenode <command> <options>');
+		chan.say('\002Example:\002 ' + this.irc.config.command + 'freenode <command> <options>');
 	} else {
 		var seek = params[0].toLowerCase();
 

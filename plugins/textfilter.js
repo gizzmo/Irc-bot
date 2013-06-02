@@ -46,7 +46,7 @@ Plugin.prototype.onMessage = function(line) {
 	}
 
 	if (disallow) {
-		chan.send('\002' + user.nick + ':\002 Watch your language!');
+		chan.say('\002' + user.nick + ':\002 Watch your language!');
 	}
 };
 
@@ -60,18 +60,18 @@ Plugin.prototype.trigTextfilter = function(line) {
 	// The first params is always the trigger (ie !command)
 	params.shift();
 	if (typeof params[0] === 'undefined') {
-		chan.send('\002Example:\002 ' + this.helpCommands[0]);
+		chan.say('\002Example:\002 ' + this.helpCommands[0]);
 	}
 	else if (params[0] === 'addword') {
 		this.filters.push(params[1]);
-		chan.send('The word \002' + params[1] + '\002 is no longer allowed in here!');
+		chan.say('The word \002' + params[1] + '\002 is no longer allowed in here!');
 	}
 	else if (params[0] === 'removeword') {
 		if (this.filters.indexOf(params[1]) > -1) {
 			this.filters.splice(this.filters.indexOf(params[1]));
-			chan.send('The word \002' + params[1] + '\002 is now allowed again!');
+			chan.say('The word \002' + params[1] + '\002 is now allowed again!');
 		} else {
-			chan.send('The given word \002' + params[1] + '\002 is not a disallowed word!');
+			chan.say('The given word \002' + params[1] + '\002 is not a disallowed word!');
 		}
 	}
 };
