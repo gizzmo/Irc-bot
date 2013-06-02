@@ -95,19 +95,20 @@ describe('Channels', function() {
 
 describe("Channel", function() {
 	var config = {};
-	var _irc;
+	var _irc, chan;
 
 	beforeEach(function() {
 		_irc = new irc.Irc(config);
 
 		// Initialize channels
-		_irc.channels.new('#stubChannel1', false).inRoom = true;
+		chan = _irc.channels.new('#stubChannel1', false);
 
 	});
 
 	describe('#join', function() {
 		it('should send JOIN command', function() {
-			var chan = _irc.channels.find('#stubChannel1').join();
+			chan.inRoom = false;
+			chan.join();
 
 			var message = 'JOIN #stubChannel1 ';
 			var result = _irc.resultMessage;
@@ -117,7 +118,8 @@ describe("Channel", function() {
 	}),
 	describe('#leave', function() {
 		it('should send PART command', function() {
-			var chan = _irc.channels.find('#stubChannel1').leave('Some stupid reason');
+			chan.inRoom = true;
+			chan.leave('Some stupid reason');
 
 			var message = 'PART #stubChannel1 :Some stupid reason'
 			var result = _irc.resultMessage;
@@ -127,7 +129,8 @@ describe("Channel", function() {
 	}),
 	describe('#say', function() {
 		it('should send PRIVMSG command', function() {
-			var chan = _irc.channels.find('#stubChannel1').say('Some stupid message');
+			chan.inRoom = true;
+			chan.say('Some stupid message');
 
 			var message = 'PRIVMSG #stubChannel1 :Some stupid message';
 			var result = _irc.resultMessage;
