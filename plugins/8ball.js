@@ -34,19 +34,8 @@ Plugin.prototype.trig8Ball = function(line) {
 		return chan.say('\002Example:\002 '+ this.helpCommands[0]);
 	}
 
-	// 1 in 100 chance for insult instead of 8ball usage
-	if (Math.floor(Math.random()*1000) === 1) {
-
-		var insults = [
-			'Seriously, thats the question you\'re going to ask?',
-			'Couldn\'t think of a better question?'
-		];
-
-		var insult = insults[Math.floor(Math.random()*insults.length)];
-		return chan.say(insult);
-	}
-
 	var responses = [
+		// Classic
 		"Ask again later",
 		"Better not tell you now",
 		"Concentrate and ask again",
@@ -62,14 +51,48 @@ Plugin.prototype.trig8Ball = function(line) {
 		"Signs point to yes",
 		"Yes",
 		"Yes, definitely",
-		"You may rely on it"
+		"You may rely on it",
+
+		// Positive
+		'It is possible.',
+		'Yes!',
+		'Of course.',
+		'Naturally.',
+		'Obviously.',
+		'One would be wise to think so.',
+		'The outlook is good.',
+		'It shall be.',
+		'The answer is certainly yes.',
+		'It is so.',
+
+		// Negative
+		'In your dreams.',
+		'No.',
+		'No chance.',
+		'Unlikely.',
+		'About as likely as pigs flying.',
+		'The outlook is poor.',
+		'I doubt it very much.',
+		'The answer is a resounding no.',
+		'NO!',
+		'NO.',
+		'Seriously, thats the question you\'re going to ask?',
+		'Couldn\'t think of a better question?',
+		'You\'re kidding, right?',
+
+		// Neutral
+		'Maybe...',
+		'The outlook is hazy, please ask again later.',
+		'No clue.',
+		'What are you asking me for?',
+		'_I_ don\'t know.',
+		'Come again?',
+		'You know the answer better than I.',
+		'The answer is def-- oooh! shiny thing!'
 	];
 
 	var response = responses[Math.floor(Math.random()*responses.length)];
 
-	// Shake the ball first then send the result
-	chan.action('shakes the magic 8-ball...');
-
-	setTimeout(function() { chan.say(response +', '+ user.nick); }, '1500');
+	chan.say(response +', '+ user.nick);
 
 };
