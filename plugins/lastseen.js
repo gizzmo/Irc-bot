@@ -50,11 +50,11 @@ Plugin.prototype.updateUser = function(line, argument) {
 	this.seen[u.toLowerCase()] = new Date();
 
 	if (typeof argument != 'undefined') {
-		var u = line.arguments[0];
+		u = line.arguments[0];
 
 		this.seen[u.toLowerCase()] = new Date();
 	}
-}
+};
 
 Plugin.prototype.trigLastSeen = function(line) {
 	var c = line.arguments[0], // channel

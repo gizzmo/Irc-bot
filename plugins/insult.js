@@ -30,7 +30,7 @@ Plugin.prototype.trigInsult = function(line) {
 		params = msg.split(' ');
 
 	// The first params is always the trigger (ie !command)
-	params.shift()
+	params.shift();
 	if (params.length === 0) {
 		this.Insult(user.nick, chan);
 	}
@@ -78,4 +78,4 @@ Plugin.prototype.Insult = function(target, chan) {
 		word3 = col3[Math.floor(Math.floor(Math.random()*col3.length))];
 
 	chan.say(target+'! You '+word1+', '+word2+' '+word3+'!');
-}
+};

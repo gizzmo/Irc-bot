@@ -32,7 +32,7 @@ Plugin.prototype.onConnect = function() {
 
 Plugin.prototype.nickServLogin = function() {
 	this.irc.raw('NS id ' + this.nickPass);
-}
+};
 
 Plugin.prototype.trigNickServ = function(msg) {
 	var m = msg.arguments[1], // message
@@ -61,4 +61,4 @@ Plugin.prototype.trigNickServ = function(msg) {
 			}
 		}
 	}
-}
+};

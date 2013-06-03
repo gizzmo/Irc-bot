@@ -44,4 +44,4 @@ repl.context.bot = bot;
 repl.on('exit', function() {
 	bot.raw('QUIT', ':Shutting down, Good bye!');
 	process.exit(0);
-})
+});

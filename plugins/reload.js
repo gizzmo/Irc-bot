@@ -29,7 +29,7 @@ Plugin.prototype.loadPlugin = function(msg) {
 	try {
 		irc.loadPlugin(params[0]);
 	} catch (err) {
-		chan.say(err)
+		chan.say(err);
 	}
 
 };

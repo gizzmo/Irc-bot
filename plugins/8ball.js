@@ -40,11 +40,11 @@ Plugin.prototype.trig8Ball = function(line) {
 		var insults = [
 			'Seriously, thats the question you\'re going to ask?',
 			'Couldn\'t think of a better question?'
-		]
+		];
 
 		var insult = insults[Math.floor(Math.random()*insults.length)];
 		return chan.say(insult);
-	};
+	}
 
 	var responses = [
 		"Ask again later",
@@ -70,6 +70,6 @@ Plugin.prototype.trig8Ball = function(line) {
 	// Shake the ball first then send the result
 	chan.action('shakes the magic 8-ball...');
 
-	setTimeout(function() { chan.say(response +', '+ user.nick) }, '1500');
+	setTimeout(function() { chan.say(response +', '+ user.nick); }, '1500');
 
 };

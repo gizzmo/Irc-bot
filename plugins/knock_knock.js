@@ -24,7 +24,7 @@ Plugin = exports.Plugin = function(irc, name) {
 	this.progress = 0;
 };
 
-util.inherits(Plugin, basePlugin.BasePlugin)
+util.inherits(Plugin, basePlugin.BasePlugin);
 
 Plugin.prototype.trigJoke = function(line) {
 	var irc = this.irc,
@@ -42,7 +42,7 @@ Plugin.prototype.trigJoke = function(line) {
 
 	// reset progress after 1 minutes
 	var self = this;
-	this.reset = setTimeout(function() { that.progress = 0 }, 60*1000);
+	this.reset = setTimeout(function() { that.progress = 0; }, 60*1000);
 };
 
 Plugin.prototype.onMessage = function(line) {
@@ -64,6 +64,6 @@ Plugin.prototype.onMessage = function(line) {
 			clearTimeout(this.reset);
 
 			return chan.say('Doris locked, that\'s why im knocking!');
-		};
+		}
 	}
 };

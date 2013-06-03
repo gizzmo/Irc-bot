@@ -5,7 +5,7 @@ var util = require('util'),
 	basePlugin = require('./basePlugin');
 
 Plugin = exports.Plugin = function(irc, name) {
-	Plugin.super_.call(this, irc, name)
+	Plugin.super_.call(this, irc, name);
 
 	// Plugin name and version
 	this.title = 'Help Messages';
@@ -39,7 +39,7 @@ Plugin.prototype.trigHelp = function(line) {
 
 		var helpCommands = plugin.helpCommands;
 		if (typeof helpCommands !== 'undefined') {
-			for (i in helpCommands) {
+			for (var i in helpCommands) {
 				user.say('--'+ helpCommands[i]);
 			}
 		}

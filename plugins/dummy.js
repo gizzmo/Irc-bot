@@ -20,7 +20,7 @@ Plugin = exports.Plugin = function(irc, name) {
 	// Triggers are messages that start with `!`
 	this.irc.addTrigger(this, 'trigger', this.trigTrigger);
 };
-util.inherits(Plugin, basePlugin.BasePlugin)
+util.inherits(Plugin, basePlugin.BasePlugin);
 
 Plugin.prototype.trigTrigger = function(line) {
 	var irc = this.irc,
