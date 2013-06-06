@@ -23,7 +23,14 @@ Plugin.prototype.onMessage = function(line) {
 		chan = irc.channels.find(line.arguments[0]),
 		msg = line.arguments[1];
 
-	var match = msg.match(/^\s*(?:will\s+you\s+)?(?:insult|harass)\s+(\S+?)(?:[\s,.]+please)?[\s.?!]*$/i);
+	// Message should start with the bot's nick
+	if (msg.toLowerCase().indexOf(irc.nick.toLowerCase()) !== 0) {
+		return;
+	}
+
+	var regex = new RegExp('^'+irc.nick+'[\\s,.]+(?:will\\s+you\\s+)?(?:insult|harass)\\s+(\\S+?)(?:[\\s,.]+please)?[\\s.?!]*$', 'i'),
+		match = msg.match(regex);
+
 	if (match) {
 		var target = match[1], line;
 
