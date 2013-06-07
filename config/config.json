@@ -10,7 +10,7 @@
 
 	"plugins": [
 		"8ball",
-		"insult2",
+		"insult",
 		"knock_knock"
 	]
 }

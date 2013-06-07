@@ -1,5 +1,6 @@
 /**
- * Insult Plugin
+ * Insult Plugin converted from :
+ * http://lxr.mozilla.org/mozilla/source/webtools/mozbot/BotModules/Insult.bm
  */
 var util = require('util'),
 	basePlugin = require('./basePlugin');
@@ -13,69 +14,102 @@ Plugin = exports.Plugin = function(irc, name) {
 
 	// Help info with info on the commands
 	this.help = 'Have the bot instult people, or your self.';
-	this.helpCommands = [
-		this.irc.config.command + 'insult <target> (if target is empty, you\'ll be insulted)'
-	];
-
-	// Triggers are messages that start with `!`
-	this.irc.addTrigger(this, 'insult', this.trigInsult);
 };
 util.inherits(Plugin, basePlugin.BasePlugin);
 
-Plugin.prototype.trigInsult = function(line) {
+Plugin.prototype.onMessage = function(line) {
 	var irc = this.irc,
 		user = irc.users.find(line.nick),
 		chan = irc.channels.find(line.arguments[0]),
-		msg = line.arguments[1],
-		params = msg.split(' ');
+		msg = line.arguments[1];
 
-	// The first params is always the trigger (ie !command)
-	params.shift();
-	if (params.length === 0) {
-		this.Insult(user.nick, chan);
+	// Message should start with the bot's nick
+	if (msg.toLowerCase().indexOf(irc.nick.toLowerCase()) !== 0) {
+		return;
 	}
-	else if (params[0] !== irc.nick) {
-		this.Insult(params[0], chan);
-	}
-	else {
-		this.Insult(user.nick, chan);
+
+	var regex = new RegExp('^'+irc.nick+'[\\s,.]+(?:will\\s+you\\s+)?(?:insult|harass)\\s+(\\S+?)(?:[\\s,.]+please)?[\\s.?!]*$', 'i'),
+		match = msg.match(regex);
+
+	if (match) {
+		var target = match[1], line;
+
+		// Do they want us to insult them?
+		if (target == 'me') {
+			target = user.nick;
+		}
+
+		// Are they trying to insult us?
+		if (target.toLowerCase() == irc.nick.toLowerCase() || target.toLowerCase() == 'yourself') {
+			line = user.nick+': nice try, fool';
+		}
+		else {
+			line = target+ ': '+ this.generateInsult();
+		}
+
+		chan.say(line);
 	}
 
 };
 
+/**
+ * Insults are formed by making combinations of:
+ *
+ *    You are nothing but a(n) {adj} {amt} of {adj} {noun}
+ */
+Plugin.prototype.generateInsult = function() {
 
-Plugin.prototype.Insult = function(target, chan) {
+	var adjectives = [
+		'acidic', 'antique', 'contemptible', 'culturally-unsound', 'despicable', 'evil',
+		'fermented', 'festering', 'foul', 'fulminating', 'humid', 'impure', 'inept', 'inferior',
+		'industrial', 'left-over', 'low-quality', 'malodorous', 'off-color', 'penguin-molesting',
+		'petrified', 'pointy-nosed', 'salty', 'sausage-snorfling', 'tasteless', 'tempestuous',
+		'tepid', 'tofu-nibbling', 'unintelligent', 'unoriginal', 'uninspiring', 'weasel-smelling',
+		'wretched', 'spam-sucking', 'egg-sucking', 'decayed', 'halfbaked', 'infected', 'squishy',
+		'porous', 'pickled', 'coughed-up', 'thick', 'vapid', 'hacked-up', 'unmuzzled', 'bawdy',
+		'vain', 'lumpish', 'churlish', 'fobbing', 'rank', 'craven', 'puking', 'jarring',
+		'fly-bitten', 'pox-marked', 'fen-sucked', 'spongy', 'droning', 'gleeking', 'warped',
+		'currish', 'milk-livered', 'surly', 'mammering', 'ill-borne', 'beef-witted',
+		'tickle-brained', 'half-faced', 'headless', 'wayward', 'rump-fed', 'onion-eyed',
+		'beslubbering', 'villainous', 'lewd-minded', 'cockered', 'full-gorged', 'rude-snouted',
+		'crook-pated', 'pribbling', 'dread-bolted', 'fool-born', 'puny', 'fawning', 'sheep-biting',
+		'dankish', 'goatish', 'weather-bitten', 'knotty-pated', 'malt-wormy', 'saucyspleened',
+		'motley-mind', 'it-fowling', 'vassal-willed', 'loggerheaded', 'clapper-clawed', 'frothy',
+		'ruttish', 'clouted', 'common-kissing', 'pignutted', 'folly-fallen', 'plume-plucked',
+		'flap-mouthed', 'swag-bellied', 'dizzy-eyed', 'gorbellied', 'weedy', 'reeky', 'measled',
+		'spur-galled', 'mangled', 'impertinent', 'bootless', 'toad-spotted', 'hasty-witted',
+		'horn-beat', 'yeasty', 'imp-bladdereddle-headed', 'boil-brained', 'tottering', 'hedge-born',
+		'hugger-muggered', 'elf-skinned', 'Microsoft-loving'
+	];
 
-	var col1 = [ "artless", "bawdy", "beslubbering", "bootless", "churlish", "cockered", "clouted",
-		"craven", "currish", "dankish", "dissembling", "droning", "errant", "fawning", "fobbing",
-		"froward", "frothy", "gleeking", "goatish", "gorbellied", "impertinent", "infectious",
-		"jarring", "loggerheaded", "lumpish", "mammering", "mangled", "mewling", "paunchy",
-		"pribbling", "puking", "puny", "qualling", "rank", "reeky", "roguish", "ruttish", "saucy",
-		"spleeny", "spongy", "surly", "tottering", "unmuzzled", "vain", "venomed", "villainous",
-		"warped", "wayward", "weedy", "yeasty" ];
+	var amounts = [
+		'accumulation', 'bucket', 'coagulation', 'enema-bucketful', 'gob', 'half-mouthful', 'heap',
+		'mass', 'mound', 'petrification', 'pile', 'puddle', 'stack', 'thimbleful', 'tongueful',
+		'ooze', 'quart', 'bag', 'plate', 'ass-full', 'assload'
+	];
 
-	var col2 = [ "base-court", "bat-fowling", "beef-witted", "beetle-headed", "boil-brained",
-		"clapper-clawed", "clay-brained", "common-kissing", "crook-pated", "dismal-dreaming",
-		"dizzy-eyed", "doghearted", "dread-bolted", "earth-vexing", "elf-skinned", "fat-kidneyed",
-		"fen-sucked", "flap-mouthed", "fly-bitten", "folly-fallen", "fool-born", "full-gorged",
-		"guts-griping", "half-faced", "hasty-witted", "hedge-born", "hell-hated", "idle-headed",
-		"ill-breeding", "ill-nurtured", "knotty-pated", "milk-livered", "motley-minded",
-		"onion-eyed", "plume-plucked", "pottle-deep", "pox-marked", "reeling-ripe", "rough-hewn",
-		"rude-growing", "rump-fed", "shard-borne", "sheep-biting", "spur-galled", "swag-bellied",
-		"tardy-gaited", "tickle-brained", "toad-spotted", "unchin-snouted", "weather-bitten"];
+	var nouns = [
+		'bat toenails', 'bug spit', 'cat hair', 'chicken piss', 'dog vomit', 'dung',
+		'fat woman\'s stomach-bile', 'fish heads', 'guano', 'gunk', 'pond scum', 'rat retch',
+		'red dye number-9', 'Sun IPC manuals', 'waffle-house grits', 'yoo-hoo', 'dog balls',
+		'seagull puke', 'cat bladders', 'pus', 'urine samples', 'squirrel guts', 'snake assholes',
+		'snake bait', 'buzzard gizzards', 'cat-hair-balls', 'rat-farts', 'pods', 'armadillo snouts',
+		'entrails', 'snake snot', 'eel ooze', 'slurpee-backwash', 'toxic waste', 'Stimpy-drool',
+		'poopy', 'poop', 'craptacular carpet droppings', 'jizzum', 'cold sores', 'anal warts',
+		'IE user'
+	];
 
-	var col3 = [ "apple-john", "baggage", "barnacle", "bladder", "boar-pig", "bugbear",
-		"bum-bailey", "canker-blossom", "clack-dish", "clotpole", "coxcomb", "codpiece",
-		"death-token","dewberry", "flap-dragon", "flax-wench", "flirt-gill", "foot-licker",
-		"fustilarian", "giglet", "gudgeon", "haggard", "harpy", "hedge-pig", "horn-beast",
-		"hugger-mugger", "joithead", "lewdster", "lout", "maggot-pie", "malt-worm", "mammet",
-		"measle", "minnow", "miscreant", "moldwarp", "mumble-news", "nut-hook", "pigeon-egg",
-		"pignut", "puttock", "pumpion", "ratsbane", "scut", "skainsmate", "strumpet", "varlet",
-		"vassal", "whey-face", "wagtail" ];
 
-	var word1 = col1[Math.floor(Math.floor(Math.random()*col1.length))],
-		word2 = col2[Math.floor(Math.floor(Math.random()*col2.length))],
-		word3 = col3[Math.floor(Math.floor(Math.random()*col3.length))];
+	var adj1 = adjectives[Math.floor(Math.random()*adjectives.length)],
+		adj2 = adjectives[Math.floor(Math.random()*adjectives.length)],
+		amnt = amounts[Math.floor(Math.random()*amounts.length)],
+		noun = nouns[Math.floor(Math.random()*nouns.length)],
+		an = adj1.match(/^[aeiou]/i) ? 'an' : 'a';
 
-	chan.say(target+'! You '+word1+', '+word2+' '+word3+'!');
+	// adj2 musn't be the same as $adj1
+	if (adj1 == adj2) {
+		adj2 = 'err... of... some';
+	}
+
+	return util.format("You are nothing but %s %s %s of %s %s.", an, adj1, amnt, adj2, noun);
 };
