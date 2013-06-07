@@ -12,30 +12,57 @@ describe("Insult", function(){
 		_insult = new insult.Plugin(_irc, 'insult');
 	})
 
-	describe("#trigInsult()", function() {
-		it('should insult the user who sent the command', function() {
-			var test = new message.Message(':stubUser!~stubUser@irc.network.com PRIVMSG #stubChannel :!insult');
-			var result = /PRIVMSG #stubChannel :stubUser! You ([^\s]*), ([^\s]*) ([^\s]*)!/;
-			var call = _insult.trigInsult(test);
-			var resultMessage = _irc.resultMessage;
-			JSON.stringify(resultMessage).should.match(result);
 
-		})
-		it('should insult the intend target', function() {
-			var test = new message.Message(':stubUser!~stubUser@irc.network.com PRIVMSG #stubChannel :!insult thirdUser');
-			var result = /PRIVMSG #stubChannel :thirdUser! You ([^\s]*), ([^\s]*) ([^\s]*)!/;
-			var compare = _insult.trigInsult(test);
+	it('should respond to several different requests', function() {
+
+		// '^stubBotNick[\s,.]+(?:will\s+you\s+)?(?:insult|harass)\s+(\S+?)(?:[\s,.]+please)?[\s.?!]*$'
+		[
+			'stubBotNick, will you insult stubUser please',
+			'stubBotNick, will you insult stubUser.',
+			'stubBotNick, insult stubUser please',
+			'stubBotNick, insult stubUser!',
+			'stubBotNick will you harass stubUser please',
+			'stubBotNick will you harass stubUser.',
+			'stubBotNick harass stubUser please',
+			'stubBotNick harass stubUser!'
+
+		].forEach(function(msg) {
+			var test = new message.Message(':stubUser!~stubUser@users.ircserver.org PRIVMSG #stubChannel :'+msg);
+			var result = /PRIVMSG #stubChannel :stubUser: You are nothing but (\S*) (\S*) (\S*) of (\S*) (\S*)./;
+
+			var call = _insult.onMessage(test);
 			var resultMessage = _irc.resultMessage;
 			JSON.stringify(resultMessage).should.match(result);
-		})
-		it('should\'nt insult the bot', function() {
-			var test = new message.Message(':stubUser!~stubUser@irc.network.com PRIVMSG #stubChannel :!insult stubBotNick');
-			var result = /PRIVMSG #stubChannel :stubUser! You ([^\s]*), ([^\s]*) ([^\s]*)!/;
-			var compare = _insult.trigInsult(test);
-			var resultMessage = _irc.resultMessage;
-			JSON.stringify(resultMessage).should.match(result);
-		})
+		});
+
 	})
+	it('should insult the user who sent the request', function() {
+		var test = new message.Message(':stubUser!~stubUser@irc.network.com PRIVMSG #stubChannel :stubBotNick insult me');
+		var result = /PRIVMSG #stubChannel :stubUser: You are nothing but (\S*) (\S*) (\S*) of (\S*) (\S*)./;
+
+		var call = _insult.onMessage(test);
+		var resultMessage = _irc.resultMessage;
+		JSON.stringify(resultMessage).should.match(result);
+
+	})
+	it('should insult the intend target', function() {
+		var test = new message.Message(':stubUser!~stubUser@irc.network.com PRIVMSG #stubChannel :stubBotNick insult thirdUser');
+		var result = /PRIVMSG #stubChannel :thirdUser: You are nothing but (\S*) (\S*) (\S*) of (\S*) (\S*)./;
+
+		var compare = _insult.onMessage(test);
+		var resultMessage = _irc.resultMessage;
+		JSON.stringify(resultMessage).should.match(result);
+	})
+	it('shouldn\'t insult it\'s self', function() {
+		var test = new message.Message(':stubUser!~stubUser@irc.network.com PRIVMSG #stubChannel :stubBotNick insult stubBotNick');
+		var result = 'PRIVMSG #stubChannel :stubUser: nice try, fool.';
+
+		var compare = _insult.onMessage(test);
+		var resultMessage = _irc.resultMessage;
+		JSON.stringify(resultMessage).should.equal(JSON.stringify(result));
+	})
+
+
 	it('should have a name', function() {
 		JSON.stringify(_insult.name).should.equal(JSON.stringify('insult'));
 	}),

@@ -41,7 +41,7 @@ Plugin.prototype.onMessage = function(line) {
 
 		// Are they trying to insult us?
 		if (target.toLowerCase() == irc.nick.toLowerCase() || target.toLowerCase() == 'yourself') {
-			line = user.nick+': nice try, fool';
+			line = user.nick+': nice try, fool.';
 		}
 		else {
 			line = target+ ': '+ this.generateInsult();
