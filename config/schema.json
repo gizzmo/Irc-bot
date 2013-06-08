@@ -64,6 +64,11 @@
 					"type": "object"
 				}
 			}
+		},
+		"showRaw": {
+			"description": "Whether to show the raw data from, two the server.",
+			"type": "boolean",
+			"require": false
 		}
 
 	}
