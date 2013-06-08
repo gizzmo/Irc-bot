@@ -28,7 +28,7 @@ describe('Channels', function() {
 		it('should add to channels array', function() {
 			var newChannel = _irc.channels.new('#stubChannel');
 
-			(_irc.channels.channels[0]).should.equal(newChannel);
+			(_irc.channels[0]).should.equal(newChannel);
 		})
 
 		it('should return the old object of it already exists',function() {
