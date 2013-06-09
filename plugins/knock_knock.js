@@ -47,8 +47,8 @@ Plugin.prototype.trigJoke = function(line) {
 
 Plugin.prototype.onMessage = function(line) {
 	var irc = this.irc,
-		user = irc.users.find(line.nick),
 		chan = irc.channels.find(line.arguments[0]),
+		user = line.nick,
 		msg = line.arguments[1];
 
 	if (this.progress === 1) {

@@ -27,7 +27,7 @@ util.inherits(Plugin, basePlugin.BasePlugin);
 
 Plugin.prototype.onMessage = function(line) {
 	var irc = this.irc,
-		user = irc.users.find(line.nick),
+		user = line.nick,
 		chan = irc.channels.find(line.arguments[0]),
 		msg = line.arguments[1],
 		disallow = false;
@@ -41,18 +41,18 @@ Plugin.prototype.onMessage = function(line) {
 
 	// if the bot itself uses bad language (e.g. on answering with an added word),
 	// do not send the message (do not disallow the word)
-	if (user.nick == irc.nick || msg.indexOf(irc.config.command + 'textfilter') === 0) {
+	if (user == irc.nick || msg.indexOf(irc.config.command + 'textfilter') === 0) {
 		disallow = false;
 	}
 
 	if (disallow) {
-		chan.say('\002' + user.nick + ':\002 Watch your language!');
+		chan.say('\002' + user + ':\002 Watch your language!');
 	}
 };
 
 Plugin.prototype.trigTextfilter = function(line) {
 	var irc = this.irc,
-		user = irc.users.find(line.user),
+		user = line.user,
 		chan = irc.channels.find(line.arguments[0]),
 		msg = line.arguments[1],
 		params = msg.split(' ');

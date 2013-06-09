@@ -24,7 +24,7 @@ util.inherits(Plugin, basePlugin.BasePlugin);
 
 Plugin.prototype.trigTrigger = function(line) {
 	var irc = this.irc,
-		user = irc.users.find(line.user),
+		user = line.user,
 		// this could be the botname if a private message
 		chan = irc.channels.find(line.arguments[0]),
 		msg = line.arguments[1],

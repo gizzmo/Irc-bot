@@ -19,8 +19,8 @@ util.inherits(Plugin, basePlugin.BasePlugin);
 
 Plugin.prototype.onMessage = function(line) {
 	var irc = this.irc,
-		user = irc.users.find(line.nick),
 		chan = irc.channels.find(line.arguments[0]),
+		user = line.nick,
 		msg = line.arguments[1];
 
 	// Message should start with the bot's nick
@@ -28,6 +28,7 @@ Plugin.prototype.onMessage = function(line) {
 		return;
 	}
 
+	// Fancy regex to respond to
 	var regex = new RegExp('^'+irc.nick+'[\\s,.]+(?:will\\s+you\\s+)?(?:insult|harass)\\s+(\\S+?)(?:[\\s,.]+please)?[\\s.?!]*$', 'i'),
 		match = msg.match(regex);
 
@@ -36,12 +37,12 @@ Plugin.prototype.onMessage = function(line) {
 
 		// Do they want us to insult them?
 		if (target == 'me') {
-			target = user.nick;
+			target = user;
 		}
 
 		// Are they trying to insult us?
 		if (target.toLowerCase() == irc.nick.toLowerCase() || target.toLowerCase() == 'yourself') {
-			line = user.nick+': nice try, fool.';
+			line = user+': nice try, fool.';
 		}
 		else {
 			line = target+ ': '+ this.generateInsult();

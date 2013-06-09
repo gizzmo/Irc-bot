@@ -24,7 +24,7 @@ util.inherits(Plugin, basePlugin.BasePlugin);
 
 Plugin.prototype.trig8Ball = function(line) {
 	var irc = this.irc,
-		user = irc.users.find(line.nick),
+		user = line.nick,
 		chan = irc.channels.find(line.arguments[0]),
 		msg = line.arguments[1],
 		params = msg.split(' ');
@@ -93,6 +93,6 @@ Plugin.prototype.trig8Ball = function(line) {
 
 	var response = responses[Math.floor(Math.random()*responses.length)];
 
-	chan.say(response +', '+ user.nick);
+	chan.say(response +', '+ user);
 
 };

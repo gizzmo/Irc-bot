@@ -24,23 +24,23 @@ util.inherits(Plugin, basePlugin.BasePlugin);
 
 Plugin.prototype.trigHelp = function(line) {
 	var irc = this.irc,
-		user = irc.users.find(line.nick),
+		user = line.nick,
 		chan = irc.channels.find(line.arguments[0]);
 
-	user.say('\002Available Plugins\002 and their commands:');
+	this.irc.say(user, '\002Available Plugins\002 and their commands:');
 	for(var name in irc.plugins) {
 		var plugin = irc.plugins[name];
-		user.say('Plugin: '+ plugin.title +' - v' + plugin.version);
+		this.irc.say(user, 'Plugin: '+ plugin.title +' - v' + plugin.version);
 
 		var helpMessage = plugin.help;
 		if (typeof helpMessage !== 'undefined') {
-			user.say('--'+ helpMessage);
+			this.irc.say(user, '--'+ helpMessage);
 		}
 
 		var helpCommands = plugin.helpCommands;
 		if (typeof helpCommands !== 'undefined') {
 			for (var i in helpCommands) {
-				user.say('--'+ helpCommands[i]);
+				this.irc.say(user, '--'+ helpCommands[i]);
 			}
 		}
 	}
