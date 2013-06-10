@@ -33,8 +33,8 @@ Irc.prototype.initialize = function(config) {
 
 	// initialize users
 	this.users = new user.Users(this);
-	this.users.new('stubBotNick');
-	this.users.new('stubUser');
+	this.users.add('stubBotNick', '#stubChannel');
+	this.users.add('stubUser', '#stubChannel');
 
 	this.triggers = {};
 
