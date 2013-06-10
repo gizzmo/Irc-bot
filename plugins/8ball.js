@@ -31,27 +31,27 @@ Plugin.prototype.trig8Ball = function(line) {
 
 	// The first params is always the trigger (ie !command)
 	if (typeof params[1] == 'undefined') {
-		return chan.say('\002Example:\002 '+ this.helpCommands[0]);
+		return chan.say('You should ask a question. \002Example:\002 '+ this.helpCommands[0]);
 	}
 
 	var responses = [
 		// Classic
-		"Ask again later",
-		"Better not tell you now",
-		"Concentrate and ask again",
-		"Don't count on it",
-		"It is certain",
-		"Most likely",
-		"My reply is no",
-		"My sources say no",
-		"No",
-		"Outlook good",
-		"Outlook not so good",
-		"Reply hazy, try again",
-		"Signs point to yes",
-		"Yes",
-		"Yes, definitely",
-		"You may rely on it",
+		'Ask again later.',
+		'Better not tell you now.',
+		'Concentrate and ask again.',
+		'Don\'t count on it.',
+		'It is certain.',
+		'Most likely.',
+		'My reply is no.',
+		'My sources say no.',
+		'No.',
+		'Outlook good.',
+		'Outlook not so good.',
+		'Reply hazy, try again.',
+		'Signs point to yes.',
+		'Yes.',
+		'Yes, definitely.',
+		'You may rely on it.',
 
 		// Positive
 		'It is possible.',
@@ -76,23 +76,19 @@ Plugin.prototype.trig8Ball = function(line) {
 		'The answer is a resounding no.',
 		'NO!',
 		'NO.',
-		'Seriously, thats the question you\'re going to ask?',
-		'Couldn\'t think of a better question?',
-		'You\'re kidding, right?',
 
 		// Neutral
 		'Maybe...',
 		'The outlook is hazy, please ask again later.',
-		'No clue.',
-		'What are you asking me for?',
-		'_I_ don\'t know.',
-		'Come again?',
-		'You know the answer better than I.',
-		'The answer is def-- oooh! shiny thing!'
+		'No clue.'
 	];
 
 	var response = responses[Math.floor(Math.random()*responses.length)];
 
-	chan.say(response +', '+ user);
+	chan.action('shakes the magic 8 ball...');
 
+	// respond after a few seconds.
+	setTimeout(function() {
+		chan.say(response);
+	}, 1000);
 };
