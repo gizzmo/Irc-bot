@@ -64,22 +64,11 @@ describe("IRC", function(){
 
 		_irc.onMessage(message);
 
-		var con = _irc.connection;
-		var result = con.message;
+		var message = 'PONG irc.server.net\r\n';
+		var result = _irc.connection.message;
 
 		JSON.stringify(result).should.not.equal(JSON.stringify('undefined'));
-		JSON.stringify(_irc.connection.message).should.equal(JSON.stringify('PONG irc.server.net\r\n'));
-	}),
-	it('should disconnect if the connection is not open and not already closed', function() {
-		var inMessage = 'PING :cameron.freenode.net';
-		var message = new Message(inMessage);
-
-		var con = _irc.connection;
-		con.readyState = "notclosedalready";
-
-		_irc.onClose();
-
-		("closed").should.equal(con.readyState);
+		JSON.stringify(result).should.equal(JSON.stringify(message));
 	})
 
 
