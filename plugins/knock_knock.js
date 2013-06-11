@@ -28,8 +28,8 @@ util.inherits(Plugin, basePlugin.BasePlugin);
 
 Plugin.prototype.trigJoke = function(line) {
 	var irc = this.irc,
-		user = irc.users.find(line.nick),
-		chan = irc.channels.find(line.arguments[0]), // the channel it was sent to
+		user = line.nick,
+		chan = irc.channels.find(line.arguments[0]),
 		msg = line.arguments[1]; // the message its self
 
 	if (this.progress === 0){
@@ -37,7 +37,7 @@ Plugin.prototype.trigJoke = function(line) {
 		return chan.say('Ok, i\'ve got a joke for you. Knock Knock!');
 	}
 	else {
-		return chan.say('Shush '+user.nick+', I\'m already telling a joke! Try again in a min.');
+		return chan.say('Shush '+user+', I\'m already telling a joke! Try again in a min.');
 	}
 
 	// reset progress after 1 minutes
@@ -47,8 +47,8 @@ Plugin.prototype.trigJoke = function(line) {
 
 Plugin.prototype.onMessage = function(line) {
 	var irc = this.irc,
-		chan = irc.channels.find(line.arguments[0]),
 		user = line.nick,
+		chan = irc.channels.find(line.arguments[0]),
 		msg = line.arguments[1];
 
 	if (this.progress === 1) {

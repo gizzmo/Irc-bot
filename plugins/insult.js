@@ -19,8 +19,8 @@ util.inherits(Plugin, basePlugin.BasePlugin);
 
 Plugin.prototype.onMessage = function(line) {
 	var irc = this.irc,
-		chan = irc.channels.find(line.arguments[0]),
 		user = line.nick,
+		chan = irc.channels.find(line.arguments[0]),
 		msg = line.arguments[1];
 
 	// Message should start with the bot's nick

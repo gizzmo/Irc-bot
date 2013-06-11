@@ -30,29 +30,48 @@ describe("KnockKnock", function(){
 		JSON.stringify(resultMessage).should.equal(JSON.stringify(result));
 
 	})
-	it('should responde to correct msg', function() {
+	it('should respond to correct msg', function() {
 
 		// possible stage 1 respones
-		['whos there', 'who\'s there','whos there?','who\'s there?','who is there','who is there?',
-		'Whos There', 'Who\'s There','Whos There?','Who\'s There?','Who is There','Who is There?'].forEach(function(msg) {
+		var checks = [
+			['whos there', 'PRIVMSG #stubChannel :Doris!'],
+			['who\'s there', 'PRIVMSG #stubChannel :Doris!'],
+			['whos there?', 'PRIVMSG #stubChannel :Doris!'],
+			['who\'s there?', 'PRIVMSG #stubChannel :Doris!'],
+			['who is there', 'PRIVMSG #stubChannel :Doris!'],
+			['who is there?', 'PRIVMSG #stubChannel :Doris!']
+		];
+
+		checks.forEach(function(obj) {
+			var msg = obj[0];
+			var result = obj[1];
+
 			// reset the progress to test each possible result
 			_knock_knock.progress = 1;
 
 			var test = new message.Message(':stubUser!~stubUser@users.ircserver.org PRIVMSG #stubChannel :'+msg);
-			var result = 'PRIVMSG #stubChannel :Doris!';
 
 			var call = _knock_knock.onMessage(test);
 			var resultMessage = _irc.resultMessage;
+
 			JSON.stringify(resultMessage).should.equal(JSON.stringify(result));
 		});
 
 		// stage two
-		['doris who', 'doris who?'].forEach(function(msg) {
+		checks = [
+			['doris who', 'Doris locked, that\'s why im knocking!'],
+			['doris who?', 'Doris locked, that\'s why im knocking!']
+		];
+
+		checks.forEach(function(obj) {
+			var msg = obj[0];
+			var result = obj[1];
+
 			// reset the progress to test each possible result
 			_knock_knock.progress = 2;
 
 			var test = new message.Message(':stubUser!~stubUser@users.ircserver.org PRIVMSG #stubChannel :'+msg);
-			var result = 'PRIVMSG #stubChannel :Doris locked, that\'s why im knocking!';
+			var result = 'PRIVMSG #stubChannel :'+result;
 
 			var call = _knock_knock.onMessage(test);
 			var resultMessage = _irc.resultMessage;
@@ -62,7 +81,19 @@ describe("KnockKnock", function(){
 	})
 	it('shouldnt respond if msg doesnt match progress', function() {
 
-		['who\'s that?', 'who is that?', 'whats there', 'whats this', 'ok, whos there']. forEach(function(msg) {
+		var checks = [
+			['who\'s that?', 'NOTHING HAPPENED'],
+			['who is that?', 'NOTHING HAPPENED'],
+			['whats there', 'NOTHING HAPPENED'],
+			['whats this', 'NOTHING HAPPENED'],
+			['ok, whos there', 'NOTHING HAPPENED'],
+			['Doris Who?', 'NOTHING HAPPENED']
+		];
+
+		checks.forEach(function(obj) {
+			var msg = obj[0];
+			var result = obj[1];
+
 			// reset progress
 			_knock_knock.progress = 1;
 

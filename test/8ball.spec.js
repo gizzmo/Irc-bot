@@ -15,7 +15,7 @@ describe("8Ball", function(){
 	describe('#trig8Ball', function() {
 		it('should answer with an Example, if now question asked', function() {
 			var test = new message.Message(':stubUser!~stubUser@irc.server.net PRIVMSG #stubChannel :!8ball');
-			var result = 'PRIVMSG #stubChannel :\002Example:\002 !8ball <question>';
+			var result = 'PRIVMSG #stubChannel :You should ask a question. \002Example:\002 !8ball <question>';
 
 			var call = _8ball.trig8Ball(test);
 			var resultMessage = _irc.resultMessage;
