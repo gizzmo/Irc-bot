@@ -1,5 +1,5 @@
 /**
- * Knock-Knock joke Plugin
+ * Jokes Plugin
  */
 var util = require('util'),
 	basePlugin = require('./basePlugin');
@@ -8,11 +8,11 @@ Plugin = exports.Plugin = function(irc, name) {
 	Plugin.super_.call(this, irc, name);
 
 	// Plugin name and version
-	this.title = 'Knock Knock Plugin';
+	this.title = 'Jokes';
 	this.version = '0.1';
 
 	// Help info with info on the commands
-	this.help = 'This plugin tells knock-knock jokes (right now only one, maybe more soon).';
+	this.help = 'This plugin tells jokes (right now only one, maybe more soon).';
 
 	// current joke progress
 	this.progress = 0;

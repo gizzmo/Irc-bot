@@ -12,6 +12,6 @@
 	"plugins": [
 		"8ball",
 		"insult",
-		"knock_knock"
+		"jokes"
 	]
 }

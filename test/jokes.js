@@ -1,15 +1,15 @@
 var irc  = require('./irc-stub.js'),
 	message = require('../lib/message'),
-	knock_knock = require('../plugins/knock_knock.js'),
+	jokes = require('../plugins/jokes'),
 	should = require('should');
 
-describe("KnockKnock", function(){
+describe("Jokes", function(){
 	var config = {};
-	var _irc, _knock_knock;
+	var _irc, _jokes;
 
 	beforeEach(function() {
 		_irc = new irc.Irc(config);
-		_knock_knock = new knock_knock.Plugin(_irc, 'Knock_Knock');
+		_jokes = new jokes.Plugin(_irc, 'Jokes');
 	});
 
 	it('should start joke process on request', function() {
@@ -31,11 +31,11 @@ describe("KnockKnock", function(){
 				var test = new message.Message(':stubUser!~stubUser@users.ircserver.org PRIVMSG #stubChannel :'+msg);
 				var result = 'PRIVMSG #stubChannel :'+result;
 
-				_knock_knock.onMessage(test);
+				_jokes.onMessage(test);
 				var resultMessage = _irc.resultMessage;
 
 				JSON.stringify(resultMessage).should.equal(JSON.stringify(result));
-				_knock_knock.progress.should.equal(1);
+				_jokes.progress.should.equal(1);
 			})
 		});
 
@@ -44,9 +44,9 @@ describe("KnockKnock", function(){
 		var test = new message.Message(':stubUser!~stubUser@users.ircserver.org PRIVMSG #stubChannel :stubBotNick, tell me a joke');
 		var result = 'PRIVMSG #stubChannel :Shush stubUser, I\'m already telling a joke! Try again in a bit.';
 
-		_knock_knock.progress = 1;
+		_jokes.progress = 1;
 
-		_knock_knock.onMessage(test);
+		_jokes.onMessage(test);
 		var resultMessage = _irc.resultMessage;
 
 		JSON.stringify(resultMessage).should.equal(JSON.stringify(result));
@@ -69,13 +69,13 @@ describe("KnockKnock", function(){
 			var result = obj[1];
 
 			// reset the progress to test each possible result
-			_knock_knock.progress = 1;
+			_jokes.progress = 1;
 
 			it(function() {
 				var test = new message.Message(':stubUser!~stubUser@users.ircserver.org PRIVMSG #stubChannel :'+msg);
 				var result = 'PRIVMSG #stubChannel :'+result;
 
-				_knock_knock.onMessage(test);
+				_jokes.onMessage(test);
 				var resultMessage = _irc.resultMessage;
 
 				JSON.stringify(resultMessage).should.equal(JSON.stringify(result));
@@ -94,13 +94,13 @@ describe("KnockKnock", function(){
 			var result = obj[1];
 
 			// reset the progress to test each possible result
-			_knock_knock.progress = 2;
+			_jokes.progress = 2;
 
 			it(function() {
 				var test = new message.Message(':stubUser!~stubUser@users.ircserver.org PRIVMSG #stubChannel :'+msg);
 				var result = 'PRIVMSG #stubChannel :'+result;
 
-				var call = _knock_knock.onMessage(test);
+				var call = _jokes.onMessage(test);
 				var resultMessage = _irc.resultMessage;
 				JSON.stringify(resultMessage).should.equal(JSON.stringify(result));
 
@@ -113,13 +113,13 @@ describe("KnockKnock", function(){
 
 
 	it('should have a name', function() {
-		JSON.stringify(_knock_knock.name).should.equal(JSON.stringify('Knock_Knock'));
+		JSON.stringify(_jokes.name).should.equal(JSON.stringify('Knock_Knock'));
 	}),
 	it('should have a version', function() {
-		JSON.stringify(_knock_knock.version).should.not.equal(JSON.stringify('undefined'));
+		JSON.stringify(_jokes.version).should.not.equal(JSON.stringify('undefined'));
 	}),
 	it('should have a title', function() {
-		JSON.stringify(_knock_knock.title).should.not.equal(JSON.stringify('undefined'));
+		JSON.stringify(_jokes.title).should.not.equal(JSON.stringify('undefined'));
 	})
 
 });
