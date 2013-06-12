@@ -12,34 +12,56 @@ describe("KnockKnock", function(){
 		_knock_knock = new knock_knock.Plugin(_irc, 'Knock_Knock');
 	});
 
-	it('should start one joke process on request', function() {
-		var test = new message.Message(':stubUser!~stubUser@users.ircserver.org PRIVMSG #stubChannel :!joke');
-		var result = 'PRIVMSG #stubChannel :Ok, i\'ve got a joke for you. Knock Knock!';
+	it('should start joke process on request', function() {
 
-		var call = _knock_knock.trigJoke(test);
-		var resultMessage = _irc.resultMessage;
+		var checks = [
+			['stubBotNick, tell me a joke!', 'Ok, i\'ve got a joke for you. Knock Knock!'],
+			['stubBotNick, tell me a joke please', 'Ok, i\'ve got a joke for you. Knock Knock!'],
+			['stubBotNick, will you tell me a joke?', 'Ok, i\'ve got a joke for you. Knock Knock!'],
+			['stubBotNick, tell me a joke please!', 'Ok, i\'ve got a joke for you. Knock Knock!'],
+			['stubBotNick will you tell me a joke please.', 'Ok, i\'ve got a joke for you. Knock Knock!'],
+			['stubBotNick, do not tell me a joke!', 'NOTHING HAPPENED']
+		];
 
-		JSON.stringify(resultMessage).should.equal(JSON.stringify(result));
-		_knock_knock.progress.should.equal(1);
+		checks.forEach(function(obj) {
+			var msg = obj[0];
+			var result = obj[1];
 
-		// if somone else
-		var result = 'PRIVMSG #stubChannel :Shush stubUser, I\'m already telling a joke! Try again in a min.';
+			it(function(){
+				var test = new message.Message(':stubUser!~stubUser@users.ircserver.org PRIVMSG #stubChannel :'+msg);
+				var result = 'PRIVMSG #stubChannel :'+result;
 
-		var call = _knock_knock.trigJoke(test);
-		var resultMessage = _irc.resultMessage;
-		JSON.stringify(resultMessage).should.equal(JSON.stringify(result));
+				_knock_knock.onMessage(test);
+				var resultMessage = _irc.resultMessage;
+
+				JSON.stringify(resultMessage).should.equal(JSON.stringify(result));
+				_knock_knock.progress.should.equal(1);
+			})
+		});
 
 	})
-	it('should respond to correct msg', function() {
+	it('should not start a joke when one is already in progress', function() {
+		var test = new message.Message(':stubUser!~stubUser@users.ircserver.org PRIVMSG #stubChannel :stubBotNick, tell me a joke');
+		var result = 'PRIVMSG #stubChannel :Shush stubUser, I\'m already telling a joke! Try again in a bit.';
+
+		_knock_knock.progress = 1;
+
+		_knock_knock.onMessage(test);
+		var resultMessage = _irc.resultMessage;
+
+		JSON.stringify(resultMessage).should.equal(JSON.stringify(result));
+	})
+	it('should respond to correct msg, and not the wrong one', function() {
 
 		// possible stage 1 respones
 		var checks = [
-			['whos there', 'PRIVMSG #stubChannel :Doris!'],
-			['who\'s there', 'PRIVMSG #stubChannel :Doris!'],
-			['whos there?', 'PRIVMSG #stubChannel :Doris!'],
-			['who\'s there?', 'PRIVMSG #stubChannel :Doris!'],
-			['who is there', 'PRIVMSG #stubChannel :Doris!'],
-			['who is there?', 'PRIVMSG #stubChannel :Doris!']
+			['whos there', 'Doris.'],
+			['who\'s there', 'Doris.'],
+			['whos there?', 'Doris.'],
+			['who\'s there?', 'Doris.'],
+			['who is there', 'Doris.'],
+			['who is there?', 'Doris.'],
+			['who isnt there?', 'NOTHING HAPPENED']
 		];
 
 		checks.forEach(function(obj) {
@@ -49,18 +71,22 @@ describe("KnockKnock", function(){
 			// reset the progress to test each possible result
 			_knock_knock.progress = 1;
 
-			var test = new message.Message(':stubUser!~stubUser@users.ircserver.org PRIVMSG #stubChannel :'+msg);
+			it(function() {
+				var test = new message.Message(':stubUser!~stubUser@users.ircserver.org PRIVMSG #stubChannel :'+msg);
+				var result = 'PRIVMSG #stubChannel :'+result;
 
-			var call = _knock_knock.onMessage(test);
-			var resultMessage = _irc.resultMessage;
+				_knock_knock.onMessage(test);
+				var resultMessage = _irc.resultMessage;
 
-			JSON.stringify(resultMessage).should.equal(JSON.stringify(result));
+				JSON.stringify(resultMessage).should.equal(JSON.stringify(result));
+			})
 		});
 
 		// stage two
 		checks = [
 			['doris who', 'Doris locked, that\'s why im knocking!'],
-			['doris who?', 'Doris locked, that\'s why im knocking!']
+			['doris who?', 'Doris locked, that\'s why im knocking!'],
+			['door is locked, yea yea yea', 'NOTHING HAPPENED']
 		];
 
 		checks.forEach(function(obj) {
@@ -70,43 +96,17 @@ describe("KnockKnock", function(){
 			// reset the progress to test each possible result
 			_knock_knock.progress = 2;
 
-			var test = new message.Message(':stubUser!~stubUser@users.ircserver.org PRIVMSG #stubChannel :'+msg);
-			var result = 'PRIVMSG #stubChannel :'+result;
+			it(function() {
+				var test = new message.Message(':stubUser!~stubUser@users.ircserver.org PRIVMSG #stubChannel :'+msg);
+				var result = 'PRIVMSG #stubChannel :'+result;
 
-			var call = _knock_knock.onMessage(test);
-			var resultMessage = _irc.resultMessage;
-			JSON.stringify(resultMessage).should.equal(JSON.stringify(result));
+				var call = _knock_knock.onMessage(test);
+				var resultMessage = _irc.resultMessage;
+				JSON.stringify(resultMessage).should.equal(JSON.stringify(result));
+
+			})
 		});
 
-	})
-	it('shouldnt respond if msg doesnt match progress', function() {
-
-		var checks = [
-			['who\'s that?', 'NOTHING HAPPENED'],
-			['who is that?', 'NOTHING HAPPENED'],
-			['whats there', 'NOTHING HAPPENED'],
-			['whats this', 'NOTHING HAPPENED'],
-			['ok, whos there', 'NOTHING HAPPENED'],
-			['Doris Who?', 'NOTHING HAPPENED']
-		];
-
-		checks.forEach(function(obj) {
-			var msg = obj[0];
-			var result = obj[1];
-
-			// reset progress
-			_knock_knock.progress = 1;
-
-			// test invalid responce
-			var test = new message.Message(':stubUser!~stubUser@users.ircserver.org PRIVMSG #stubChannel :'+ msg);
-			var result = 'NOTHING HAPPENED';
-
-			var call = _knock_knock.onMessage(test);
-			var resultMessage = _irc.resultMessage;
-			JSON.stringify(resultMessage).should.equal(JSON.stringify(result));
-
-			_knock_knock.progress.should.equal(1);
-		})
 	})
 
 
