@@ -4,6 +4,9 @@
 	"version": "0.0.1",
 	"author": "Michael Lanman (http://justgizzmo.com)",
 	"main": "bot.js",
+	"repository": {
+		"type" : "git"
+	},
 	"engines": {
 		"node": ">=0.8"
 	},
@@ -22,6 +25,6 @@
 	},
 	"scripts": {
 		"test": "mocha --reporter spec --slow 0 test/*.spec.js",
-		"start": "node bot.js"
+		"start": "screen node bot.js"
 	}
 }
