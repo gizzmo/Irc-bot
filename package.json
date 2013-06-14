@@ -25,6 +25,6 @@
 	},
 	"scripts": {
 		"test": "mocha --reporter spec --slow 0 test/*.spec.js",
-		"start": "screen node bot.js"
+		"start": "node bot.js"
 	}
 }
