@@ -5,7 +5,7 @@ https://github.com/triplem/NodeJS-IRC-Bot/
 
 Prerequisites
 =============
-* NodeJS (tested under v0.8.17)
+* NodeJS (tested under v0.10.10)
 
 How to run
 ==========
@@ -40,15 +40,4 @@ required parameters).
 We do like to get pull requests for additional plugins, and we prefer plugins with at least a basic
 mocha test (see folder tests for examples). This is really easy and allows us to make sure that
 your plugin is still working, even if we change anything in the central irc module.
-
-ToDos
-=====
-
-In the following are some Todos still open, they are unsorted and not prioritized.
-
-* Implement user checks for plugins, so that the irc bot recognizes at least some basic "authorization"
-* Add documentation to base methods
-* Allow configuration changes during runtime
-* Add admin interface (web gui?)
-* Cleanup Hooks, Plugins and Triggers in Irc (are these really needed)?
 
